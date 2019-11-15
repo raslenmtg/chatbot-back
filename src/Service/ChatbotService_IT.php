@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -13,9 +14,9 @@ class ChatbotService_IT extends AbstractController
 
         $client = HttpClient::create();
         try {
-        $response =$client->request('GET','https://api.wit.ai/message',['query'=>['v'=>'20191021','q'=>$message],'headers'=>['Authorization'=>'Bearer J4AHQAMMQRMSBE6LIOYMHOLEHRFHE6DX']]);
+        $response =$client->request('GET','https://api.wit.ai/message',['query'=>['v'=>'20191021','q'=>$message],'headers'=>['Authorization'=>'Bearer '.$_ENV['WIT_TOKEN_IT']]]);
         $content = $response->toArray();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
         print_r($content);
