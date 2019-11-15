@@ -15,7 +15,7 @@ class ChatbotController extends AbstractController
 
 
     /**
-     * @Route("/api/chatbot/fr",name="chatbot", methods={"POST"})
+     * @Route("/chatbot/fr",name="chatbot", methods={"POST"})
      */
     public function ChatbotService(Request $request, ChatbotService $chatbotService)
     {
@@ -27,7 +27,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
-     * @Route("/api/chatbot/it",name="chatbot_it", methods={"POST"})
+     * @Route("/chatbot/it",name="chatbot_it", methods={"POST"})
      */
     public function ChatbotService_it(Request $request, ChatbotService_IT $chatbotService)
     {
