@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ChatbotController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ChatbotController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -178,7 +177,7 @@
       <workItem from="1573661472012" duration="1383000" />
       <workItem from="1573722236633" duration="780000" />
       <workItem from="1573734734746" duration="2995000" />
-      <workItem from="1573809076579" duration="4111000" />
+      <workItem from="1573809076579" duration="5362000" />
     </task>
     <task id="LOCAL-00001" summary="diffrent changes">
       <created>1573809621876</created>
@@ -194,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573823750020</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="diffrent changes">
+      <created>1573827751412</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1573827751412</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
