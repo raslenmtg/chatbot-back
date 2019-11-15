@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="">
+    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="diffrent changes">
+      <change afterPath="$PROJECT_DIR$/src/Controller/ChatbotController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/ChatbotService_IT.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/doctrine.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/AuthentificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AuthentificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/UserService.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ChatbotService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ChatbotService.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -176,6 +179,11 @@
       <workItem from="1572865023907" duration="1310000" />
       <workItem from="1572866465722" duration="611000" />
       <workItem from="1573032430881" duration="2784000" />
+      <workItem from="1573579089619" duration="11124000" />
+      <workItem from="1573661472012" duration="1383000" />
+      <workItem from="1573722236633" duration="780000" />
+      <workItem from="1573734734746" duration="2995000" />
+      <workItem from="1573809076579" duration="477000" />
     </task>
     <servers />
   </component>
@@ -194,5 +202,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="diffrent changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="diffrent changes" />
   </component>
 </project>
