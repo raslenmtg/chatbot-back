@@ -2,23 +2,43 @@
 
 namespace App\Service;
 
+use App\Entity\Phone;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpClient\HttpClient;
 
 
 class ChatbotService
 {
-    public function typeofmessage($message)
+
+
+    public function __construct(EntityManagerInterface $em)
     {
+        $this->em = $em;
+    }
+
+    public function test()
+    {
+        return 'test';
+    }
+
+
+    public function typeofmessage($data)
+    {
+
+        $message = $data['messages'][0]['text']['body'];
+        $phone=$data['messages'][0]['from']?$data['messages'][0]['from']:$data['messages']['context']['from'];
+        $this->addphone($phone);
+
 
         $client = HttpClient::create();
         try {
-            $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => '20191021', 'q' => $message], 'headers' => ['Authorization' => 'Bearer '.$_ENV['WIT_TOKEN']]]);
+            $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => '20191021', 'q' => $message], 'headers' => ['Authorization' => 'Bearer ' . $_ENV['WIT_TOKEN']]]);
             $content = $response->toArray();
         } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
-        // print_r($content);
+
         if (isset ($content['entities']['intent'][0]['value']))
             $intent = $content['entities']['intent'][0]['value'];
         else
@@ -44,6 +64,30 @@ class ChatbotService
         }
 
     }
+
+
+    public function addphone($phone)
+    {
+        $repository = $this->em->getRepository(phone::class);
+        $phoneexist = $repository->find( $phone);
+        if (!$phoneexist) {
+            $p = new Phone();
+            $p->setPhone($phone);
+            $this->em->persist($p);
+            $this->em->flush();
+        }
+    }
+
+    public function Getphones()
+    {
+        $repository = $this->em->getRepository(phone::class);
+        $phones = $repository->findAll();
+        foreach ($phones as $phone){
+            $phoneslist[]=$phone->getPhone();
+        }
+        return $phoneslist;
+    }
+
 
 
 }
