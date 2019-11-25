@@ -4,11 +4,15 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="diffrent changes">
+    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ChatbotController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ChatbotController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/ChatbotService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ChatbotService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -138,6 +142,8 @@
       <path value="$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/templating" />
       <path value="$PROJECT_DIR$/vendor/nelmio/cors-bundle" />
+      <path value="$PROJECT_DIR$/vendor/cron/cron-bundle" />
+      <path value="$PROJECT_DIR$/vendor/cron/cron" />
     </include_path>
   </component>
   <component name="ProjectId" id="1S3q8wEcogp2HpTtgTkqjbBQYSF" />
@@ -198,7 +204,10 @@
       <workItem from="1574066526982" duration="17023000" />
       <workItem from="1574154220746" duration="13633000" />
       <workItem from="1574238812308" duration="2600000" />
-      <workItem from="1574325962669" duration="6878000" />
+      <workItem from="1574325962669" duration="10061000" />
+      <workItem from="1574414813244" duration="229000" />
+      <workItem from="1574427361507" duration="389000" />
+      <workItem from="1574673002628" duration="4918000" />
     </task>
     <task id="LOCAL-00001" summary="diffrent changes">
       <created>1573809621876</created>
@@ -228,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573832080360</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="diffrent changes">
+      <created>1574348421130</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1574348421130</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

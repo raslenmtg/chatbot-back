@@ -76,9 +76,12 @@ class ChatbotService
     {
 
         $message = $request->get('message');
-        $date = $request->get('date');
+
         $hour = $request->get('hour');
         $minute = $request->get('minute');
+        $date=explode("-", $request->get('date'));
+        //print_r($date);
+
         $phoneslist = $this->Getphones();
         $req = HttpClient::create();
         foreach ($phoneslist as $phone) {

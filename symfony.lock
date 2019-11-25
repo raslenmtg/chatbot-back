@@ -1,4 +1,10 @@
 {
+    "cron/cron": {
+        "version": "1.4.1"
+    },
+    "cron/cron-bundle": {
+        "version": "2.2.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
