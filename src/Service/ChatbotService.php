@@ -36,8 +36,10 @@ class ChatbotService
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
 
-        if (isset ($content['entities']['intent'][0]['value']))
+        if (isset ($content['entities']['intent'][0]['value'])){
             $intent = $content['entities']['intent'][0]['value'];
+        $this->freq_question($intent);
+        }
         else
             return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
                     -	Ou puis-je acheter un ticket ou recharger ma carte ? 
@@ -74,14 +76,11 @@ class ChatbotService
 
     public function Sendnotif(\Symfony\Component\HttpFoundation\Request $request)
     {
-
         $message = $request->get('message');
-
         $hour = $request->get('hour');
         $minute = $request->get('minute');
         $date=explode("-", $request->get('date'));
         //print_r($date);
-
         $phoneslist = $this->Getphones();
         $req = HttpClient::create();
         foreach ($phoneslist as $phone) {
@@ -104,6 +103,13 @@ return true;
             $phoneslist[] = $phone->getPhone();
         }
         return $phoneslist;
+    }
+
+    public function freq_question($intent){
+
+
+
+
     }
 
 }

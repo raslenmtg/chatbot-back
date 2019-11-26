@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/framework.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/ChatbotService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ChatbotService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -207,7 +202,10 @@
       <workItem from="1574325962669" duration="10061000" />
       <workItem from="1574414813244" duration="229000" />
       <workItem from="1574427361507" duration="389000" />
-      <workItem from="1574673002628" duration="4918000" />
+      <workItem from="1574673002628" duration="10851000" />
+      <workItem from="1574699127732" duration="567000" />
+      <workItem from="1574699725297" duration="3357000" />
+      <workItem from="1574761317969" duration="647000" />
     </task>
     <task id="LOCAL-00001" summary="diffrent changes">
       <created>1573809621876</created>
@@ -244,7 +242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574348421130</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="diffrent changes">
+      <created>1574680161386</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1574680161386</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
