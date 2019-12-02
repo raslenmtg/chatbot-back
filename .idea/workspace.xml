@@ -4,9 +4,9 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="">
+    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="diffrent changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/framework.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ChatbotController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ChatbotController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/ChatbotService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ChatbotService.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -205,7 +205,10 @@
       <workItem from="1574673002628" duration="10851000" />
       <workItem from="1574699127732" duration="567000" />
       <workItem from="1574699725297" duration="3357000" />
-      <workItem from="1574761317969" duration="647000" />
+      <workItem from="1574761317969" duration="1398000" />
+      <workItem from="1574863439098" duration="1828000" />
+      <workItem from="1574957084804" duration="20000" />
+      <workItem from="1575278703343" duration="7053000" />
     </task>
     <task id="LOCAL-00001" summary="diffrent changes">
       <created>1573809621876</created>
@@ -249,7 +252,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574680161386</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="diffrent changes">
+      <created>1574762062676</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1574762062676</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

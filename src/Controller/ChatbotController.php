@@ -21,18 +21,11 @@ class ChatbotController extends AbstractController
      */
     public function ChatbotService(Request $request, ChatbotService $chatbotService)
     {
-        /**take message from whatsapp
-         * $message = $request->get('message');
-         * $answer = $chatbotService->typeofmessage($message);
-         * return new Response($answer, 200);
-         */
-
         $data = json_decode($request->getContent(), true);
         if ($data['messages'][0]['type'] == 'text') {
             $answer = $chatbotService->typeofmessage($data);
             return new Response($answer, 200);
         } else {
-
             return new Response('Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
 -	Ou puis-je acheter un ticket ou recharger ma carte ? 
 -	J’ai perdu un objet, comment le retrouver ? 
@@ -57,7 +50,6 @@ class ChatbotController extends AbstractController
 
     }
 
-
     /**
      * @Route("/api/getphones",name="chatbot_phones", methods={"POST"})
      */
@@ -67,11 +59,10 @@ class ChatbotController extends AbstractController
         return new JsonResponse($resp);
     }
 
-
     /**
      * @Route("/api/sendnotif",name="sendnotif",methods={"POST"})
      */
-    public function sendnotif(Request $request, ChatbotService $chatbotService)
+    public function Sendnotif(Request $request, ChatbotService $chatbotService)
     {
 
         $response = $chatbotService->Sendnotif($request);
@@ -81,6 +72,19 @@ class ChatbotController extends AbstractController
             return new Response("error", 500);
 
     }
+
+    /**
+     * @Route("/api/getPlaces",name="getPlaces",methods={"POST"})
+     */
+    public function GetPlaces(Request $request, ChatbotService $chatbotService)
+    {
+
+        $resp = $chatbotService->GetPlaces();
+        return new JsonResponse($resp);
+
+    }
+
+
 
 
 }

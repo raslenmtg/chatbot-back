@@ -105,6 +105,20 @@ return true;
         return $phoneslist;
     }
 
+    public function GetPlaces(){
+
+        return Array("marrakech","marrakech","marrakech","marrakech","marrakech","marrakech","marrakech","marrakech","marrakech","marrakech","marrakech");
+
+        /*
+        $repository = $this->em->getRepository(arret::class);
+        $places = $repository->findAll();
+        foreach ($places as $place) {
+            $placelist[] = $place->getPhone();
+        }
+        return $placelist;      */
+
+    }
+
     public function freq_question($intent){
 
 
