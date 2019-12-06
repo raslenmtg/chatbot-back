@@ -18,6 +18,13 @@ class Phone
      */
     private $phone;
 
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="notif_auto", type="boolean", nullable=true)
+     */
+    protected $notif_auto;
+
 
     public function getPhone(): ?string
     {
@@ -30,4 +37,20 @@ class Phone
 
         return $this;
     }
+
+
+    public function isNotifAuto(): bool
+    {
+        return $this->notif_auto;
+    }
+
+    public function setNotifAuto(bool $notif_auto): self
+    {
+        $this->notif_auto = $notif_auto;
+        return $this;
+    }
+
+
+
+
 }
