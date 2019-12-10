@@ -57,13 +57,12 @@ class ChatbotService
             $report->reporting_parjour();*/
 
             return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
-                    -	Ou puis-je acheter un ticket ou recharger ma carte ? 
-                    -	J’ai perdu un objet, comment le retrouver ? 
-                    -	Comment puis-je déposer une réclamation/plainte ?
-                    -	A quelle station dois-je descendre ? 
-                    -	Quelle est la station la plus proche de moi ? 
-                    -	Quelle est la meilleure route ? ';
-        }
+-	Ou puis-je acheter un ticket ou recharger ma carte ? 
+-	J’ai perdu un objet, comment le retrouver ? 
+-	Comment puis-je déposer une réclamation ?
+-	A quelle station dois-je descendre ? 
+-	Quelle est la station la plus proche de moi ? 
+-	Comment puis-je souscrire à un abonnement ? ';}
         switch ($intent) {
             case "salutation":
                 //////Nombre de personnes qui ont contacter le chatbot
@@ -155,13 +154,13 @@ Ou par téléphone, au 05 22 99 83 83
             default:
 
 
-                return "Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
-                    -	Ou puis-je acheter un ticket ou recharger ma carte ? 
-                    -	J’ai perdu un objet, comment le retrouver ? 
-                    -	Comment puis-je déposer une réclamation/plainte ?
-                    -	A quelle station dois-je descendre ? 
-                    -	Quelle est la station la plus proche de moi ? 
-                    -	Quelle est la meilleure route ? ";
+                return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
+-	Ou puis-je acheter un ticket ou recharger ma carte ? 
+-	J’ai perdu un objet, comment le retrouver ? 
+-	Comment puis-je déposer une réclamation ?
+-	A quelle station dois-je descendre ? 
+-	Quelle est la station la plus proche de moi ? 
+-	Comment puis-je souscrire à un abonnement ? ';
 
         }
 
@@ -239,8 +238,8 @@ Ou par téléphone, au 05 22 99 83 83
 
     }
 
-    public function freq_question($intent)
-    {
+    public function freq_question($intent){
+
 
 
     }
