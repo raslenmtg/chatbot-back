@@ -17,24 +17,24 @@ class ChatbotController extends AbstractController
 
 
     /**
-     * @Route("/chatbot/fr",name="chatbot", methods={"POST"})
+     * @Route("/v1/messages",name="chatbot", methods={"POST"})
      */
     public function ChatbotService(Request $request, ChatbotService $chatbotService)
     {
         $data = json_decode($request->getContent(), true);
         if ($data['messages'][0]['type'] == 'text') {
             $answer = $chatbotService->typeofmessage($data);
-            return new Response($answer, 200);
-        } else {
-            return new Response('Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
+        } else
+            $answer =  'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
 -	Ou puis-je acheter un ticket ou recharger ma carte ? 
 -	J’ai perdu un objet, comment le retrouver ? 
--	Comment puis-je déposer une réclamation/plainte ?
+-	Comment puis-je déposer une réclamation ?
 -	A quelle station dois-je descendre ? 
 -	Quelle est la station la plus proche de moi ? 
--	Quelle est la meilleure route ? 
-', 200);
-        }
+-	Comment puis-je souscrire à un abonnement ? ';
+
+        $response=array("preview_url"=>true,"recipient_type"=> "individual", "to"=>$data['messages'][0]['from'],"type"=>"text","text"=>array("body"=>$answer));
+        return $this->json($response,200,array(),array());
 
     }
 
