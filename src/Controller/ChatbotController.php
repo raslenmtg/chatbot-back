@@ -7,20 +7,23 @@ namespace App\Controller;
 use App\Service\ChatbotService;
 use App\Service\ChatbotService_IT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class ChatbotController extends AbstractController
 {
 
 
     /**
-     * @Route("/v1/messages",name="chatbot", methods={"POST"})
+     * @Route("/chatbot/ma",name="chatbot", methods={"POST"})
      */
     public function ChatbotService(Request $request, ChatbotService $chatbotService)
     {
+        //text message you received from a customer(from whatsapp serve) via webhook call
         $data = json_decode($request->getContent(), true);
         if ($data['messages'][0]['type'] == 'text') {
             $answer = $chatbotService->typeofmessage($data);
@@ -34,7 +37,24 @@ class ChatbotController extends AbstractController
 -	Comment puis-je souscrire à un abonnement ? ';
 
         $response=array("preview_url"=>true,"recipient_type"=> "individual", "to"=>$data['messages'][0]['from'],"type"=>"text","text"=>array("body"=>$answer));
-        return $this->json($response,200,array(),array());
+       // uncomment for test the response that will send to customer
+       // return $this->json($response,200,array(),array());
+
+        $client = HttpClient::create();
+        try {
+            //send message to customers
+            #//add
+            $response = $client->request('POST', 'https://lcoalhost/v1/messages', ['body' => json_encode($response), 'headers' => ['Authorization' => 'Bearer ','Content-Type'=> 'application/json' ] ]);
+            //response which it's message id
+            $resp = $response->getStatusCode();
+            return Response::create('',$resp,array());
+        } catch (\Exception $e) {
+
+        } catch (TransportExceptionInterface $e) {
+            return 'serveur hors tension, reconnectez-vous en quelques minutes';
+        }
+        //return to webhook call
+       // return $this->json($response,200,array(),array());
 
     }
 

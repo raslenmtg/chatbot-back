@@ -12,6 +12,7 @@ use App\Service\ChatbotReporting;
 class ChatbotService
 {
 
+
     private $session;
 
     public function __construct(EntityManagerInterface $em, SessionInterface $session)
@@ -22,6 +23,7 @@ class ChatbotService
 
     public function typeofmessage($data)
     {
+
         //////nombre de messages envoyés par utilisateur
         if ($this->session->has('nb_msg_user')) {
             $this->session->set('nb_msg_user', $this->session->get('nb_msg_user') + 1);
@@ -238,7 +240,8 @@ Ou par téléphone, au 05 22 99 83 83
 
     }
 
-    public function freq_question($intent){
+    public function freq_question($intent) {
+
 
 
 
