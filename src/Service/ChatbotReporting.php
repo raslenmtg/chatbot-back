@@ -69,6 +69,9 @@ class ChatbotReporting
             'nb_user_contact' => $nb_user_contact,
             'date' => $x->format('d-m-Y H:i:s')));
     }
+
+
+
     public function reporting_parmois(){
         $nb_nouv_user=0;
         $nb_msg_user=0;
@@ -89,7 +92,7 @@ class ChatbotReporting
 
 
     public function export_csv(){
-
+//TODO implement export_csv()
 
 
 

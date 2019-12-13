@@ -7,12 +7,9 @@ use App\Entity\Phone;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpClient\HttpClient;
-use App\Service\ChatbotReporting;
 
 class ChatbotService
 {
-
-
     private $session;
 
     public function __construct(EntityManagerInterface $em, SessionInterface $session)
@@ -46,6 +43,7 @@ class ChatbotService
         try {
             $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => '20191021', 'q' => $message], 'headers' => ['Authorization' => 'Bearer ' . $_ENV['WIT_TOKEN']]]);
             $content = $response->toArray();
+
         } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
@@ -97,6 +95,7 @@ class ChatbotService
                 } else {
                     return "répète ta question SVP, en précise type d'avatange: Carte Rechargeable, Abonnement Mensuel, Abonnement étudiant, Abonnement Hebdomadaire";
                 }
+                break;
 
             case "réclamation":
                 return "Vous pouvez déposer votre réclamation sur notre site web en cliquant sur le lien ci-dessous ⬇️";
@@ -150,7 +149,6 @@ Ou par téléphone, au 05 22 99 83 83
                 }
             case "refuser":
                 if ($this->session->get('last_resp') === 'ask permission to send notification') {
-                    $this->session->clear();
                     return 'Aucun problème. Sachez simplement que nous sommes ici si vous avez besoin de nous. Merci pour votre temps!';
                 }
             default:
@@ -204,12 +202,11 @@ Ou par téléphone, au 05 22 99 83 83
         $req = HttpClient::create();
         foreach ($phoneslist as $phone) {
             $notif = ["preview_url" => false, "recipient_type" => "individual", "to" => $phone, "type" => "text", "text" => ["body" => $message]];
-
-//            try {
-//                $req->request('POST', 'http://localhost:8000/v1/messages', ['json' =>$notif]);
-//            } catch (Exception $e) {
-//                return 'error sending message';
-//            }
+            try {
+                $rsp = $req->request('POST', $_ENV['URL_WA_SERVER'] . '/v1/messages', ['body' => json_encode($notif), 'headers' => ['Authorization' => 'Bearer ' . $this->session->get('token'), 'Content-Type' => 'application/json']]);
+            } catch (Exception $e) {
+                return 'error sending message';
+            }
 
         }
         return true;
@@ -242,7 +239,7 @@ Ou par téléphone, au 05 22 99 83 83
 
     public function freq_question($intent) {
 
-
+#TODO implement freq_question()
 
 
     }
