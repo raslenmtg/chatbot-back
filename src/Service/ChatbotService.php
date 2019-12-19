@@ -241,7 +241,6 @@ Ou par téléphone, au 05 22 99 83 83
 
 #TODO implement freq_question()
 
-
     }
 
 }

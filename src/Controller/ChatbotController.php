@@ -29,13 +29,12 @@ class ChatbotController extends AbstractController
      */
     public function ChatbotService(Request $request, ChatbotService $chatbotService)
     {
-
         //text message you received from a customer(from whatsapp serve) via webhook call
         $data = json_decode($request->getContent(), true);
         if ($data['messages'][0]['type'] == 'text') {
             $answer = $chatbotService->typeofmessage($data);
         } else
-            $answer = 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
+            $answer = '!Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
 -	Ou puis-je acheter un ticket ou recharger ma carte ? 
 -	J’ai perdu un objet, comment le retrouver ? 
 -	Comment puis-je déposer une réclamation ?
