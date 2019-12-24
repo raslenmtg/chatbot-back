@@ -62,7 +62,7 @@ class ChatbotService
 -	Comment puis-je déposer une réclamation ?
 -	A quelle station dois-je descendre ? 
 -	Quelle est la station la plus proche de moi ? 
--	Comment puis-je souscrire à un abonnement ? ';}
+-	Comment puis-je souscrire à un abonnement ?';}
         switch ($intent) {
             case "salutation":
                 //////Nombre de personnes qui ont contacter le chatbot
