@@ -5,15 +5,13 @@ namespace App\Controller;
 
 
 use App\Service\ChatbotService;
-use App\Service\ChatbotService_IT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Twilio\TwiML\MessagingResponse;
 
 class ChatbotController extends AbstractController
 {
@@ -26,9 +24,26 @@ class ChatbotController extends AbstractController
 
     /**
      * @Route("/chatbot/ma",name="chatbot", methods={"POST"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return Response
      */
-    public function ChatbotService(Request $request, ChatbotService $chatbotService)
+    public function ChatbotService(Request $request, ChatbotService $chatbotService): Response
     {
+/*
+        $response = new MessagingResponse();
+        $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
+        $answer = $chatbotService->typeofmessage($data);
+        $response->message($answer);
+        return Response::create($response, 200, array());
+*/
+
+        $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
+        $answer = $chatbotService->typeofmessage($data);
+        return Response::create($answer, 200, array());
+
+////$mimeType = $request->input("MediaContentType{$idx}"); get content type
+        /*
         //text message you received from a customer(from whatsapp serve) via webhook call
         $data = json_decode($request->getContent(), true);
         if ($data['messages'][0]['type'] == 'text') {
@@ -43,16 +58,10 @@ class ChatbotController extends AbstractController
 -	Comment puis-je souscrire à un abonnement ? ';
 
         $response = array("preview_url" => true, "recipient_type" => "individual", "to" => $data['messages'][0]['from'], "type" => "text", "text" => array("body" => $answer));
-        /*
-         *
-         *
-         */
-        // uncomment for test the response that will send to customer
+
+        // this line for test purpose uncomment it so the response will be send to customer en prod
          return $this->json($response,200,array(),array());
-        /*
-         *
-         *
-         */
+
         $client = HttpClient::create();
         try {
             /// check token expiration
@@ -72,25 +81,16 @@ class ChatbotController extends AbstractController
             //return to webhook call
         } catch (\Exception $e) {
             return Response::create('', $rsp->getStatusCode(), array());
-        }
+        }*/
     }
 
-    /**
-     * @Route("/chatbot/it",name="chatbot_it", methods={"POST"})
-     */
-    public function ChatbotService_it(Request $request, ChatbotService_IT $chatbotService)
-    {
-        //take message from whatsapp
-        $message = $request->get('message');
-        $answer = $chatbotService->typeofmessage_it($message);
-        return new Response($answer, 200);
-
-    }
 
     /**
      * @Route("/api/getphones",name="chatbot_phones", methods={"POST"})
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
      */
-    public function Getphones(ChatbotService $chatbotService)
+    public function Getphones(ChatbotService $chatbotService): JsonResponse
     {
         $resp = $chatbotService->Getphones();
         return new JsonResponse($resp);
@@ -98,27 +98,20 @@ class ChatbotController extends AbstractController
 
     /**
      * @Route("/api/sendnotif",name="sendnotif",methods={"POST"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
      */
-    public function Sendnotif(Request $request, ChatbotService $chatbotService)
+    public function Sendnotif(Request $request, ChatbotService $chatbotService): ?JsonResponse
     {
-
         $response = $chatbotService->Sendnotif($request);
-        if ($response)
-            return new Response("success", 200);
-        else
-            return new Response("error", 500);
 
-    }
-
-    /**
-     * @Route("/api/getPlaces",name="getPlaces",methods={"POST"})
-     */
-    public function GetPlaces(Request $request, ChatbotService $chatbotService)
-    {
-
-        $resp = $chatbotService->GetPlaces();
-        return new JsonResponse($resp);
-
+        if ($response) {
+            return new JsonResponse(array('result' => 'succes'), 200);
+        }
+        else {
+            return new JsonResponse(null, 500);
+        }
     }
 
 
