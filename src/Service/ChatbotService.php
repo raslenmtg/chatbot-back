@@ -34,32 +34,21 @@ class ChatbotService
 
     public function typeofmessage($data): ?string
     {
-        $filename = 'C:\Users\Med Raslen\Desktop\GPS station Casa.csv';
-
-// The nested array to hold all the arrays
+     /*   $filename = 'C:\Users\Med Raslen\Desktop\GPS station Casa.csv';
         $the_big_array = [];
-
-// Open the file for reading
         if (($h = fopen("{$filename}", "r")) !== FALSE)
         {
-            // Each line in the file is converted into an individual array that we call $data
-            // The items of the array are comma separated
             while (($data = fgetcsv($h, 1000, ",")) !== FALSE)
             {
-                // Each individual array is being pushed into the nested array
                 $the_big_array[] = $data;
             }
-
-            // Close the file
             fclose($h);
         }
 
-// Display the code in a readable format
         echo "<pre>";
        print_r($the_big_array);
         echo "</pre>";
-
-        die();
+        die();*/
         //////nombre de messages envoyés par utilisateur
         if ($this->session->has('nb_msg_user')) {
             $this->session->set('nb_msg_user', $this->session->get('nb_msg_user') + 1);
@@ -71,6 +60,7 @@ class ChatbotService
         $message = $data['message'];
         $phone = $data['phone_number'];
         $new_phone = $this->addphone($phone);
+
         //////Nombres de nouveau clients
         if ($new_phone) {
             if ($this->session->has('nb_nouv_user')) {
@@ -79,17 +69,18 @@ class ChatbotService
                 $this->session->set('nb_nouv_user', 1);
             }
         }
-        //////END
+
+        //////END*/
         $client = HttpClient::create();
       //  if ($this->session->get('last_resp') === 'get location') {
 
 
-            $res=$client->request('GET','https://maps.googleapis.com/maps/api/geocode/json',['query'=>['region'=>'ma','address'=>$message.',casablanca','key'=>$_ENV['google_map_key']]]);
+        /*    $res=$client->request('GET','https://maps.googleapis.com/maps/api/geocode/json',['query'=>['region'=>'ma','address'=>$message.',casablanca','key'=>$_ENV['google_map_key']]]);
             $t = $res->toArray();
             $long=$t['results'][0]['geometry']['location']['lng'];
             $lat=$t['results'][0]['geometry']['location']['lat'];
 
-
+        */
       //  }
 
 
@@ -100,22 +91,34 @@ class ChatbotService
         } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
+        if(isset ($content['entities']['station_proche'][0]['value'])){
+            return 'La station la plus proche de vous est Station "XX". Vous pouvez vous y rendre ainsi ';
+        }
+
+        if(isset ($content['entities']['dest_map'][0]['value'])){
+            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station.';
+        }
+        if(isset ($content['entities']['horaire'][0]['value'])){
+            return 'Sauf perturbation, il y a un tramway chaque XX min à cette heure-ci. Le prochain devrait être à HH MM. ';
+        }
 
         if (isset ($content['entities']['intent'][0]['value'])) {
             $intent = $content['entities']['intent'][0]['value'];
-            $this->freq_question($intent);
         } else {
             /*
             $report = new  \App\Service\ChatbotReporting($this->em, $this->session);
             $report->reporting_parjour();*/
 
             return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
--	Ou puis-je acheter un ticket ou recharger ma carte ? 
--	J’ai perdu un objet, comment le retrouver ? 
--	Comment puis-je déposer une réclamation ?
--	A quelle station dois-je descendre ? 
--	Quelle est la station la plus proche de moi ? 
--	Comment puis-je souscrire à un abonnement ?';
+1 - Horaires tramway
+2 - Itinéraire 
+3 - Station la plus proche 
+4 - Carte rechargeable 
+5 - Abonnement
+6 - Service client 
+7 - Réclamation 
+Si l\'une de ces propositions correspond à votre demande, merci de m\'en informer,
+Si aucune de ces propositions ne correspond à votre demande, vous pouvez contacter notre service client par téléphone ☎️au 0522998383 ou vous pouvez contacter notre service client directement sur notre site web 🌐 ici https://www.casatramway.ma/fr/contact';
         }
         switch ($intent) {
             case 'salutation':
@@ -131,70 +134,68 @@ class ChatbotService
             case 'station_proche':
                // return 'Pour connaitre la plus proche station 🚉 de vous cliquer ci-dessous !!🗺️';
                 $this->session->set('last_resp', 'get location');
-                return'Quel est votre position🗺️ ?';
+                return'Dans quel quartier 🗺️ vous trouvez vous ? Merci de répondre sous ce format : je suis à "Quartier"';
 
             case 'aller':
                 $this->session->set('last_resp', 'get location');
-                return'Quel est votre position🗺️ ?';
+                return'Ou exactement voulez-vous vous rendre 🗺️ ? Merci de répondre sous ce format : Destination "Lieu" ?';
 
-                return 'pour aller à ' . $content['entities']['location'][0]['value'] . ' (Lien vers le site web)';
-
-            case 'bénéfic_ab_etud':
-                return "Oui, si vous êtes un étudiant 🧑‍🎓 de moins de 25ans provenant des établissements publics et privés ainsi que des formations professionnelles homologuées par le ministère de l'Éducation nationale, de la Formation Professionnelle, de l'Enseignement Supérieur et de la Recherche Scientifique.";
-            case 'avantage':
-                if (isset ($content['entities']['type_produit'][0]['value'])) {
-                    $intent = $content['entities']['type_produit'][0]['value'];
-                    switch ($intent) {
-                        case 'abonnement Mensuel':
-                            return "La carte d'abonnement 📅 vous permet de vous déplacer librement sur l'ensemble du réseau et d’effectuer des voyages illimités durant toute la période de l'abonnement.";
-                        case 'abonnement étudiant':
-                            return "L’abonnement étudiant 👨‍🎓 vous permet de vous déplacer librement sur l'ensemble du réseau, tout en bénéficiant d’un tarif préférentiel.";
-                        case 'carte rechargeable' :
-                            return 'La carte rechargeable 💳 a l’avantage d’être un support durable, et peut être rechargée de façon illimitée pendant 5ans, contrairement au ticket jetable qui lui ne peut être utilisé que 2 fois.
-                                        Elle est valable sur l’ensemble du réseau de tramway 🚉.';
-                        case 'abonnement hebdomadaire':
-                            return "La carte d'abonnement 📆 vous permet de vous déplacer librement sur l'ensemble du réseau et d’effectuer des voyages illimités durant toute la période de l'abonnement.";
-                    }
-                } else {
-                    return "répète ta question SVP, en précise type d'avatange: Carte Rechargeable 💳, Abonnement Mensuel 📅, Abonnement étudiant 👨‍🎓, Abonnement Hebdomadaire📆";
-                }
-                break;
+          case 'avantage':
+                return 'La carte d\'abonnement vous permet de vous déplacer librement sur l\'ensemble du réseau et d’effectuer des voyages illimités durant toute la période de l\'abonnement. Il y a une différence sur la période de validité de la carte (1 semaine ou 1 mois). L\'abonnement étudiant vous donne les memes avantages mais à un prix préférenciel. ';
 
             case 'réclamation':
-                return 'Vous pouvez déposer votre réclamation sur notre site web en cliquant sur le lien ci-dessous ⬇️';
+                return 'Vous pouvez joindre notre service client par téléphone ☎️au 0522998383 ou vous pouvez contacter notre service client directement sur notre site web 🌐 ici https://www.casatramway.ma/fr/contact';
+
+            case 'service client':
+                return 'Vous pouvez joindre notre service client par téléphone ☎️au 0522998383 ou vous pouvez contacter notre service client directement sur notre site web 🌐 ici https://www.casatramway.ma/fr/contact';
 
             case 'pièces':
-                return 'Une copie de la CIN, Une photo ';
+                return 'Vous devez uniquement fournir 2 documents : Une photo et une copie de la CIN. Vous l\'abonnement étudiant 🎓, il faut aussi fournir un certificat de scolarité.';
 
             case 'abonn_etudiant':
                 return 'L’abonnement étudiant 🧑‍🎓 vous permet de vous déplacer librement sur l\'ensemble du réseau, tout en bénéficiant d’un  tarif préférentiel 🔥💰 .';
 
             case 'recharger':
-                return 'Dans un guichet automatique en station 🚉, dans une agence ou auprès de l’un de nos revendeurs agrées.';
+                return 'La carte rechargeable 🎫 vous permet de recharger autant de voyage que vous voulez et à 6dh par voyage. Elle est valable 5 ans. ';
 
-            case 'achat_ticket':
-                return '🎫 Au niveau d’un guichet automatique en station, dans une agence ou auprès de l’un de nos revendeurs agrées.';
+            case 'prix':
+                  if (isset ($content['entities']['type_produit'][0]['value'])) {
+                   $intent = $content['entities']['type_produit'][0]['value'];
+                    switch ($intent){
+                        case 'abonnement étudiant':
+                            return 'L\'abonnement étudiant coute 150 dhs par mois + 15 dh le support, à acheter une seule fois et valable 5 ans. Vous pouvez retrouvez plus de détails sur nos tarifs ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
+                        case 'abonnement Mensuel':
+                            return 'L\'abonnement mensuel est à 230 dhs par mois + 15 dh le support, à acheter une seule fois et valable 5 ans. Vous pouvez retrouvez plus de détails sur nos tarifs ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
+                        case 'abonnement hebdomadaire':
+                            return 'L\'abonnement hebdomadaire est à 60 dhs par semaine + 15 dh le support, à acheter une seule fois et valable 5 ans. Vous pouvez retrouvez plus de détails sur nos tarifs ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
+                        case 'carte rechargeable':
+                            return 'Le prix de la carte rechargeable (le support) est à 15dh. Vous pouvez recharger autant de voyage que vous voulez. Chaque voyage coute 6dh. Vous pouvez retrouvez plus de détails sur nos tarifs et nos offres ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
+
+                    }
+                  }
+                  else
+                      return 'Un titre de transport coute 8dh. Après votre premier voyage, vous pouvez le recharger une fois pour 6dh et le réutiliser. Vous pouvez retrouver toutes nos offres ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
 
             case 'horaire_tram':
                 return 'Pour connaître les horaires ⌚ et fréquences ⏲️des tramways cliquez sur le lien ci-dessous ⬇️ ⬇️';
 
             case 'horaire':
-                return 'le prochain tram 🚉 vers ' . $content['entities']['location'][0]['value'] . ' dans 15 minutes !';
+                return 'Merci de me préciser quelle est votre station 🚉 de départ, l\'heure ⏲️et votre direction 🗺️. Vous pouvez l\'ecrire comme ceci : Départ "Station", Heure "HH MM", Direction "Terminus"';
 
             case 'souscri_abonn':
                 return 'Pour souscrire à un abonnement rendez-vous dans l’une de nos agences commerciales qui se trouvent à 🗺️ Abdelmoumen, Casa Voyageurs, Hay Mohammadi et Nations-Unies.';
 
+            case 'avoir_ab_etud':
+                return 'Vous pouvez avoir accès à l\'abonnement pour étudiant si vous êtes un étudiant de moins de 25ans provenant des établissements publics et privés ainsi que des formations professionnelles homologuées par le ministère de l\'Éducation nationale, de la Formation Professionnelle, de l\'Enseignement Supérieur et de la Recherche Scientifique.';
+
             case 'horaire_ouv';
                 return 'Pour connaître les horaires d’ouverture ⌚ de nos agences commerciales cliquez sur le lien ci-dessous ⬇️ ⬇️';
 
-            case 'objet_perdu':
-                return 'Vous pouvez contacter l\'agence la plus proche de chez vous.
-Abdelmoumen, Casa Voyageurs, Hay Mohammadi et Nations-Unies. 📍
-Ou par téléphone, au 05 22 99 83 83 📱';
             case 'remerciement':
-                if ($new_phone) {
-                    $return_msg = 'Souhaiteriez-vous que je vous tienne au courant des actualités.
-    Je peux vous avertir en cas de promotions, d’offres spéciales, de problèmes de trafic et bien d’autres infos utiles ?';
+                $repository = $this->em->getRepository(Phone::class);
+                $phoneaccepted = $repository->findOneBy(array('phone'=>$phone,'asked_notif'=>false));
+                if ( $phoneaccepted ) {
+                    $return_msg = 'Trambot à votre service ! Voudriez vous recevoir des informations sur le tramway via whatsapp ? Répondez "Oui" ou "Non"';
                     $this->session->set('last_resp', 'ask permission to send notification');
                     return $return_msg;
                 }
@@ -203,14 +204,15 @@ Ou par téléphone, au 05 22 99 83 83 📱';
 
             case 'accepter':
                 if ($this->session->get('last_resp') === 'ask permission to send notification') {
-                    $this->notif_auto($phone);
+                    $this->enable_notif_auto($phone);
+                    $this->confirm_notif($phone);
                     $this->session->remove('last_resp');
-                    return 'Merci, RatpDev 🚆 à votre service 😉';
+                    return ' Très bien. Vous recevrez des messages sur whatsapp pour vous informer des offres ou encore des perturbations. Trambot 🤖 à votre service ! Merci 😉';
                 }
                 break;
             case 'refuser':
                 if ($this->session->get('last_resp') === 'ask permission to send notification') {
-                    return 'Aucun problème 😛. Sachez simplement que nous sommes ici si vous avez besoin de nous. Merci pour votre temps! 😉';
+                    return 'Très bien 😛. N\'hesitez pas à recontacter Trambot 🤖 sur whatsapp si besoin. Trambot à votre service ! 😉';
                 }
                 break;
             default:
@@ -237,6 +239,7 @@ Ou par téléphone, au 05 22 99 83 83 📱';
             $p = new Phone();
             $p->setPhone($phone);
             $p->setNotifAuto(false);
+            $p->setAskennotif(false);
             $this->em->persist($p);
             $this->em->flush();
             return true;
@@ -245,13 +248,22 @@ Ou par téléphone, au 05 22 99 83 83 📱';
     }
 
     //activate notification
-    public function notif_auto($phone): void
+    public function enable_notif_auto($phone): void
     {
         $repository = $this->em->getRepository(Phone::class);
         $ph = $repository->find($phone);
         if($ph){
         $ph->setNotifAuto(true);
         $this->em->flush();}
+    }
+    function confirm_notif($phone){
+        $repository = $this->em->getRepository(Phone::class);
+        $ph = $repository->findOneBy(array('phone'=>$phone));
+        if($ph){
+            $ph->setAskennotif(true);
+            $this->em->flush();}
+
+
     }
 
     public function Sendnotif(Request $request): bool
@@ -332,11 +344,5 @@ Ou par téléphone, au 05 22 99 83 83 📱';
 
 
 
-    public function freq_question($intent): void
-    {
-
-#TODO implement freq_question()
-
-    }
 
 }
