@@ -25,6 +25,13 @@ class Phone
      */
     protected $notif_auto;
 
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="asked_notif", type="boolean", nullable=true)
+     */
+    protected $asked_notif;
+
 
     public function getPhone(): ?string
     {
@@ -50,7 +57,15 @@ class Phone
         return $this;
     }
 
+    public function setAskennotif(bool $asked_notif): self
+    {
+        $this->asked_notif = $asked_notif;
+        return $this;
+    }
 
-
+    public function isAskennotif(): bool
+    {
+        return $this->asked_notif;
+    }
 
 }
