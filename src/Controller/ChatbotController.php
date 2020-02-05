@@ -5,16 +5,12 @@ namespace App\Controller;
 
 
 use App\Service\ChatbotService;
-use App\Service\ChatbotService_IT;
-use http\Env;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Twilio\Rest\Client;
 use Twilio\TwiML\MessagingResponse;
 
 class ChatbotController extends AbstractController
@@ -28,15 +24,24 @@ class ChatbotController extends AbstractController
 
     /**
      * @Route("/chatbot/ma",name="chatbot", methods={"POST"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return Response
      */
-    public function ChatbotService(Request $request, ChatbotService $chatbotService)
+    public function ChatbotService(Request $request, ChatbotService $chatbotService): Response
     {
+        /*
+                $response = new MessagingResponse();
+                $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
+                $answer = $chatbotService->typeofmessage($data);
+                $response->message($answer);
+                return Response::create($response, 200, array());
+        */
 
-        $response = new MessagingResponse();
         $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
         $answer = $chatbotService->typeofmessage($data);
-        $response->message($answer);
-        return Response::create($response, 200, array());
+        return Response::create($answer, 200, array());
+
 ////$mimeType = $request->input("MediaContentType{$idx}"); get content type
         /*
         //text message you received from a customer(from whatsapp serve) via webhook call
@@ -44,12 +49,12 @@ class ChatbotController extends AbstractController
         if ($data['messages'][0]['type'] == 'text') {
             $answer = $chatbotService->typeofmessage($data);
         } else
-            $answer = '!Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
--	Ou puis-je acheter un ticket ou recharger ma carte ? 
--	J’ai perdu un objet, comment le retrouver ? 
+            $answer = '!Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ?
+-	Ou puis-je acheter un ticket ou recharger ma carte ?
+-	J’ai perdu un objet, comment le retrouver ?
 -	Comment puis-je déposer une réclamation ?
--	A quelle station dois-je descendre ? 
--	Quelle est la station la plus proche de moi ? 
+-	A quelle station dois-je descendre ?
+-	Quelle est la station la plus proche de moi ?
 -	Comment puis-je souscrire à un abonnement ? ';
 
         $response = array("preview_url" => true, "recipient_type" => "individual", "to" => $data['messages'][0]['from'], "type" => "text", "text" => array("body" => $answer));
@@ -79,22 +84,13 @@ class ChatbotController extends AbstractController
         }*/
     }
 
-    /**
-     * @Route("/chatbot/it",name="chatbot_it", methods={"POST"})
-     */
-    public function ChatbotService_it(Request $request, ChatbotService_IT $chatbotService)
-    {
-        //take message from whatsapp
-        $message = $request->get('message');
-        $answer = $chatbotService->typeofmessage_it($message);
-        return new Response($answer, 200);
-
-    }
 
     /**
      * @Route("/api/getphones",name="chatbot_phones", methods={"POST"})
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
      */
-    public function Getphones(ChatbotService $chatbotService)
+    public function Getphones(ChatbotService $chatbotService): JsonResponse
     {
         $resp = $chatbotService->Getphones();
         return new JsonResponse($resp);
@@ -102,32 +98,24 @@ class ChatbotController extends AbstractController
 
     /**
      * @Route("/api/sendnotif",name="sendnotif",methods={"POST"})
-     * @throws \Twilio\Exceptions\TwilioException
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
      */
-    public function Sendnotif(Request $request, ChatbotService $chatbotService)
+    public function Sendnotif(Request $request, ChatbotService $chatbotService): ?JsonResponse
     {
         $response = $chatbotService->Sendnotif($request);
 
-        if ($response)
-            return new JsonResponse(array('result'=>'succes'),200);
-        else
-            return new JsonResponse(null,500);
+        if ($response) {
+            return new JsonResponse(array('result' => 'succes'), 200);
+        }
+        else {
+            return new JsonResponse(null, 500);
+        }
     }
 
     /**
-     * @Route("/api/getPlaces",name="getPlaces",methods={"POST"})
-     */
-    public function GetPlaces(Request $request, ChatbotService $chatbotService)
-    {
-
-        $resp = $chatbotService->GetPlaces();
-        return new JsonResponse($resp);
-
-    }
-
-
-    /**
-     * @Route("/api/getdataperhour",name="sendnotif",methods={"GET"})
+     * @Route("/api/getdataperhour",name="getdataperhour",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
      * @return JsonResponse
@@ -135,6 +123,44 @@ class ChatbotController extends AbstractController
     public function getdataperhour(Request $request, ChatbotService $chatbotService): ?JsonResponse
     {
         $resp = $chatbotService->getdataperhour();
+        return new JsonResponse($resp);
+    }
+
+
+    /**
+     * @Route("/api/getdataperday",name="getdataperday",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getdataperday(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getdataperday();
+        return new JsonResponse($resp);
+    }
+
+    /**
+     * @Route("/api/getdatapermonth",name="getdatapermonth",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getdatapermonth(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getdatapermonth();
+        return new JsonResponse($resp);
+    }
+
+
+    /**
+     * @Route("/api/getdataperweek",name="getdataperweek",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getdataperweek(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getdataperweek();
         return new JsonResponse($resp);
     }
 
