@@ -115,7 +115,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
-     * @Route("/api/getdataperhour",name="sendnotif",methods={"GET"})
+     * @Route("/api/getdataperhour",name="getdataperhour",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
      * @return JsonResponse
@@ -123,6 +123,44 @@ class ChatbotController extends AbstractController
     public function getdataperhour(Request $request, ChatbotService $chatbotService): ?JsonResponse
     {
         $resp = $chatbotService->getdataperhour();
+        return new JsonResponse($resp);
+    }
+
+
+    /**
+     * @Route("/api/getdataperday",name="getdataperday",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getdataperday(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getdataperday();
+        return new JsonResponse($resp);
+    }
+
+    /**
+     * @Route("/api/getdatapermonth",name="getdatapermonth",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getdatapermonth(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getdatapermonth();
+        return new JsonResponse($resp);
+    }
+
+
+    /**
+     * @Route("/api/getdataperweek",name="getdataperweek",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getdataperweek(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getdataperweek();
         return new JsonResponse($resp);
     }
 

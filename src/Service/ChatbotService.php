@@ -347,11 +347,43 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         try {
             $conn = $this->em->getConnection();
             $reports=$conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
-            print( json_encode($reports));
-            die();
-
+          return $reports;
         } catch (DBALException $e) {
-            dd($e);
+            var_dump($e);
+        }
+    }
+
+        public function getdataperday(){
+            try {
+                $conn = $this->em->getConnection();
+                $reports=$conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date DESC ;  ");
+                return $reports;
+
+            } catch (DBALException $e) {
+                var_dump($e);
+            }
+
+
+          }
+    public function getdataperweek(){
+        try {
+            $conn = $this->em->getConnection();
+            $reports=$conn->fetchAll("SELECT * FROM reporting_semaine  ORDER BY date DESC ;  ");
+            return $reports;
+        } catch (DBALException $e) {
+            var_dump($e);
+        }
+
+
+    }
+
+    public function getdatapermonth(){
+        try {
+            $conn = $this->em->getConnection();
+            $reports=$conn->fetchAll("SELECT * FROM reporting_mois  ORDER BY date DESC ;  ");
+            return $reports;
+        } catch (DBALException $e) {
+            var_dump($e);
         }
 
 
