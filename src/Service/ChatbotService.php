@@ -129,7 +129,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                     $this->session->set('nb_user_contact', 1);
                 }
                 //////END
-                return $content['_text'] . ' , Je suis Trambot 🤖 Comment puis-je vous aider ? 🙂';
+                return $content['_text'] . ' , Je suis Trambot 🤖 ,l\'assistant virtuelle Casatram. Comment puis-je vous aider ? 🙂';
 
             case 'station_proche':
                // return 'Pour connaitre la plus proche station 🚉 de vous cliquer ci-dessous !!🗺️';
