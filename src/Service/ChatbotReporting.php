@@ -91,12 +91,6 @@ class ChatbotReporting
     }
 
 
-    public function export_csv(){
-//TODO implement export_csv()
-
-
-
-    }
-
+   
 
 }

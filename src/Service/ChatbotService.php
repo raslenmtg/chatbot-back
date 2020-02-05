@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Entity\Phone;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpClient\HttpClient;
@@ -346,6 +347,20 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         return $phoneslist;
     }
 
+
+    public function getdataperhour(){
+        try {
+            $conn = $this->em->getConnection();
+            $reports=$conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
+            print( json_encode($reports));
+            die();
+
+        } catch (DBALException $e) {
+            dd($e);
+        }
+
+
+    }
 
 
 
