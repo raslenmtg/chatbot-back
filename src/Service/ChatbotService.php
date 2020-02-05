@@ -4,11 +4,13 @@
 namespace App\Service;
 
 use App\Entity\Phone;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Rest\Client;
 define('location',['Sidi Moumen'=>array('lat'=>33.587280458339585,'lng'=>-7.500931050231884),
@@ -341,7 +343,19 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         }
         return $phoneslist;
     }
+    public function getdataperhour(){
+        try {
+            $conn = $this->em->getConnection();
+            $reports=$conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
+            print( json_encode($reports));
+            die();
 
+        } catch (DBALException $e) {
+            dd($e);
+        }
+
+
+    }
 
 
 

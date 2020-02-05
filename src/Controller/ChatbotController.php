@@ -114,5 +114,18 @@ class ChatbotController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/api/getdataperhour",name="sendnotif",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getdataperhour(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getdataperhour();
+        return new JsonResponse($resp);
+    }
+
+
 
 }
