@@ -92,11 +92,11 @@ class ChatbotService
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
         if(isset ($content['entities']['station_proche'][0]['value'])){
-            return 'La station la plus proche de vous est Station "XX". Vous pouvez vous y rendre ainsi ';
+            return 'La station 🚉 la plus proche de vous est Station "XX". Vous pouvez vous y rendre ainsi ';
         }
 
         if(isset ($content['entities']['dest_map'][0]['value'])){
-            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station.';
+            return 'Vous devez descendre à la station 🚉 "Nom de station". Voici l\'itinéraire à partir de la station.';
         }
         if(isset ($content['entities']['horaire'][0]['value'])){
             return 'Sauf perturbation, il y a un tramway chaque XX min à cette heure-ci. Le prochain devrait être à HH MM. ';
@@ -219,12 +219,16 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
 
                 return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
--	Ou puis-je acheter un ticket ou recharger ma carte ? 
--	J’ai perdu un objet, comment le retrouver ? 
--	Comment puis-je déposer une réclamation ?
--	A quelle station dois-je descendre ? 
--	Quelle est la station la plus proche de moi ? 
--	Comment puis-je souscrire à un abonnement ? ';
+1 - Horaires tramway
+2 - Itinéraire 
+3 - Station la plus proche 
+4 - Carte rechargeable 
+5 - Abonnement
+6 - Service client 
+7 - Réclamation 
+Si l\'une de ces propositions correspond à votre demande, merci de m\'en informer,
+Si aucune de ces propositions ne correspond à votre demande, vous pouvez contacter notre service client par téléphone ☎️au 0522998383 ou vous pouvez contacter notre service client directement sur notre site web 🌐 ici https://www.casatramway.ma/fr/contact';
+
 
         }
 
