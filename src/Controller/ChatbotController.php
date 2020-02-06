@@ -164,6 +164,19 @@ class ChatbotController extends AbstractController
         return new JsonResponse($resp);
     }
 
+    /**
+     * @Route("/api/getdataperdate",name="getdataperdate",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getdataperdate(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+
+        $resp = $chatbotService->getdataperdate($request->get('start'),$request->get('end'));
+        return new JsonResponse($resp);
+    }
+
 
 
 }

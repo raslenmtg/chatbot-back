@@ -389,6 +389,19 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
     }
 
+    public function getdataperdate($start, $end)
+    {
+
+        $begin = explode('-', $start);
+        $theend = explode('-', $end);
+        try {
+            $conn = $this->em->getConnection();
+            $reports=$conn->fetchAssoc("SELECT * FROM reporting_jour  WHERE date BETWEEN ? AND ?",array($start,$end));
+            return $reports;
+        } catch (DBALException $e) {
+            var_dump($e);
+        }
+    }
 
 
 }
