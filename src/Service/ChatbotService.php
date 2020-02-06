@@ -403,5 +403,15 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         }
     }
 
+    public function deleteuser($id){
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(['id' => $id]);
+         $userManager->deleteUser($user);
+
+    }
+
+
+
+
 
 }
