@@ -7,12 +7,13 @@ use App\Entity\Phone;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Rest\Client;
+
 define('location',['Sidi Moumen'=>array('lat'=>33.587280458339585,'lng'=>-7.500931050231884),
                     'Ennassim'=>array('lat'=>33.58508178237927,'lng'=>-7.50427844708247),
                     'Mohammed Zefzaf'=>array('lat'=>33.58226632282282,'lng'=>-7.508645083358715),
@@ -27,11 +28,12 @@ define('location',['Sidi Moumen'=>array('lat'=>33.587280458339585,'lng'=>-7.5009
 class ChatbotService
 {
     private $session;
-
-    public function __construct(EntityManagerInterface $em, SessionInterface $session)
+    private $usermanager;
+    public function __construct(EntityManagerInterface $em, SessionInterface $session,UserManagerInterface $userManager)
     {
         $this->em = $em;
         $this->session = $session;
+        $this->usermanager=$userManager;
     }
 
     public function typeofmessage($data): ?string
@@ -367,7 +369,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     public function getdataperweek(){
         try {
             $conn = $this->em->getConnection();
-            $reports=$conn->fetchAll("SELECT * FROM reporting_semaine  ORDER BY date DESC ;  ");
+            $reports=$conn->fetchAll("SELECT * FROM reporting_semaine  ;  ");
             return $reports;
         } catch (DBALException $e) {
             var_dump($e);
@@ -379,7 +381,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     public function getdatapermonth(){
         try {
             $conn = $this->em->getConnection();
-            $reports=$conn->fetchAll("SELECT * FROM reporting_mois  ORDER BY date DESC ;  ");
+            $reports=$conn->fetchAll("SELECT * FROM reporting_mois ;  ");
             return $reports;
         } catch (DBALException $e) {
             var_dump($e);
@@ -403,14 +405,32 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     }
 
     public function deleteuser($id){
-        $userManager = $this->get('fos_user.user_manager');
-        $user = $userManager->findUserBy(['id' => $id]);
-         $userManager->deleteUser($user);
 
+        try {
+            $user = $this->usermanager->findUserBy(['id' => $id]);
+            $this->usermanager->deleteUser($user);
+            return true;
+        } catch (Exception $e) {
+            var_dump($e);
+            return false;
+        }
     }
 
+    public function adduser(Request $req)
+    {
 
-
+        try {
+            $user = $this->usermanager->createUser();
+            $user->setUsername($req->get('username'));
+            $user->setEmail($req->get('email'));
+            $user->setPlainPassword($req->get('password'));
+            $this->usermanager->updateUser($user);
+            return true;
+        } catch (Exception $e) {
+            var_dump($e);
+            return false;
+        }
+    }
 
 
 }

@@ -187,8 +187,25 @@ class ChatbotController extends AbstractController
     public function deleteuser(Request $request, ChatbotService $chatbotService): ?JsonResponse
     {
 
-        $resp = $chatbotService->deleteuser();
+        $resp = $chatbotService->deleteuser($request->get('id'));
         return new JsonResponse($resp);
+    }
+
+    /**
+     * @Route("/api/adduser",name="adduser",methods={"POST"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function adduser(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->adduser($request);
+        if ($resp) {
+            return new JsonResponse(array('result' => 'succes'), 200);
+        }
+        else {
+            return new JsonResponse(null, 500);
+        }
     }
 
 
