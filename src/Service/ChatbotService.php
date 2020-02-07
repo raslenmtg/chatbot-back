@@ -46,7 +46,7 @@ class ChatbotService
                }
                fclose($h);
            }
-   
+
            echo "<pre>";
           print_r($the_big_array);
            echo "</pre>";
@@ -282,7 +282,6 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             }
             //
         }
-
         $repository = $this->em->getRepository(Phone::class);
         $phoneslist = $repository->findBy(['notif_auto' => true]);
         try {
@@ -389,9 +388,11 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
     }
 
-
     public function getdataperdate($start, $end)
     {
+
+
+
         try {
             $conn = $this->em->getConnection();
             $reports=$conn->fetchAll("SELECT * FROM reporting_jour  WHERE date >= ? AND date <= ?",array($start,$end));
@@ -400,6 +401,15 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             var_dump($e);
         }
     }
+
+    public function deleteuser($id){
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(['id' => $id]);
+        $userManager->deleteUser($user);
+
+    }
+
+
 
 
 

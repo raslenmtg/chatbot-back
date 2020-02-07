@@ -164,7 +164,6 @@ class ChatbotController extends AbstractController
         return new JsonResponse($resp);
     }
 
-
     /**
      * @Route("/api/getdataperdate",name="getdataperdate",methods={"GET"})
      * @param Request $request
@@ -179,6 +178,18 @@ class ChatbotController extends AbstractController
     }
 
 
+    /**
+     * @Route("/api/deleteuser",name="deleteuser",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function deleteuser(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+
+        $resp = $chatbotService->deleteuser();
+        return new JsonResponse($resp);
+    }
 
 
 }
