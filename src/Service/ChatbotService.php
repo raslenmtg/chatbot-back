@@ -392,10 +392,9 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
     public function getdataperdate($start, $end)
     {
-        
         try {
             $conn = $this->em->getConnection();
-            $reports=$conn->fetchAssoc("SELECT * FROM reporting_jour  WHERE date BETWEEN ? AND ?",array($start,$end));
+            $reports=$conn->fetchAll("SELECT * FROM reporting_jour  WHERE date >= ? AND date <= ?",array($start,$end));
             return $reports;
         } catch (DBALException $e) {
             var_dump($e);
