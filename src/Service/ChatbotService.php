@@ -49,7 +49,7 @@ class ChatbotService
                }
                fclose($h);
            }
-   
+
            echo "<pre>";
           print_r($the_big_array);
            echo "</pre>";
@@ -160,7 +160,6 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             case 'abonn_etudiant':
                 return 'L’abonnement étudiant 🧑‍🎓 vous permet de vous déplacer librement sur l\'ensemble du réseau, tout en bénéficiant d’un  tarif préférentiel 🔥💰 .';
 
-
             case 'recharger':
                 if (isset ($content['entities']['type_produit'][0]['value'])) {
                     if ($content['entities']['type_produit'][0]['value']==='carte rechargeable' ){
@@ -188,9 +187,6 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                 }
                 else
                     return 'Un titre de transport coute 8dh. Après votre premier voyage, vous pouvez le recharger une fois pour 6dh et le réutiliser. Vous pouvez retrouver toutes nos offres ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
-
-            case 'horaire_tram':
-                return 'Pour connaître les horaires ⌚ et fréquences ⏲️des tramways cliquez sur le lien ci-dessous ⬇️ ⬇️';
 
             case 'horaire':
                 return 'Merci de me préciser quelle est votre station 🚉 de départ, l\'heure ⏲️et votre direction 🗺️. Vous pouvez l\'ecrire comme ceci : Départ "Station", Heure "HH MM", Direction "Terminus"';
@@ -434,7 +430,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             $user->setEmail($req->get('email'));
             $user->setPlainPassword($req->get('password'));
             $this->usermanager->updateUser($user);
-            return true;
+            return $user->getId();
         } catch (Exception $e) {
             var_dump($e);
             return false;
