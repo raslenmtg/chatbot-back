@@ -92,7 +92,6 @@ class ChatbotService
         try {
             $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => '20191021', 'q' => $message], 'headers' => ['Authorization' => 'Bearer ' . $_ENV['WIT_TOKEN']]]);
             $content = $response->toArray();
-
         } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
@@ -109,11 +108,11 @@ class ChatbotService
 
         if (isset ($content['entities']['intent'][0]['value'])) {
             $intent = $content['entities']['intent'][0]['value'];
+
         } else {
             /*
             $report = new  \App\Service\ChatbotReporting($this->em, $this->session);
             $report->reporting_parjour();*/
-
             return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
 1 - Horaires tramway
 2 - Itinéraire 
@@ -151,6 +150,9 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             case 'réclamation':
                 return 'Vous pouvez joindre notre service client par téléphone ☎️au 0522998383 ou vous pouvez contacter notre service client directement sur notre site web 🌐 ici https://www.casatramway.ma/fr/contact';
 
+            case 'horaire':
+                return 'Merci de me préciser quelle est votre station 🚉 de départ, l\'heure ⏲️et votre direction 🗺️. Vous pouvez l\'ecrire comme ceci : Départ "Station", Heure "HH MM", Direction "Terminus"';
+
             case 'service client':
                 return 'Vous pouvez joindre notre service client par téléphone ☎️au 0522998383 ou vous pouvez contacter notre service client directement sur notre site web 🌐 ici https://www.casatramway.ma/fr/contact';
 
@@ -183,14 +185,11 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                             return 'L\'abonnement hebdomadaire est à 60 dhs par semaine + 15 dh le support, à acheter une seule fois et valable 5 ans. Vous pouvez retrouvez plus de détails sur nos tarifs ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
                         case 'carte rechargeable':
                             return 'Le prix de la carte rechargeable (le support) est à 15dh. Vous pouvez recharger autant de voyage que vous voulez. Chaque voyage coute 6dh. Vous pouvez retrouvez plus de détails sur nos tarifs et nos offres ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
-
                     }
                 }
-                else
+                else {
                     return 'Un titre de transport coute 8dh. Après votre premier voyage, vous pouvez le recharger une fois pour 6dh et le réutiliser. Vous pouvez retrouver toutes nos offres ici https://www.casatramway.ma/fr/titres-et-tarifs/nos-offres';
-
-            case 'horaire':
-                return 'Merci de me préciser quelle est votre station 🚉 de départ, l\'heure ⏲️et votre direction 🗺️. Vous pouvez l\'ecrire comme ceci : Départ "Station", Heure "HH MM", Direction "Terminus"';
+                }
 
             case 'souscri_abonn':
                 return 'Pour souscrire à un abonnement rendez-vous dans l’une de nos agences commerciales qui se trouvent à 🗺️ Abdelmoumen, Casa Voyageurs, Hay Mohammadi et Nations-Unies.';
