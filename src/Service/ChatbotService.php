@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Entity\Phone;
+use App\Entity\User;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -48,7 +49,7 @@ class ChatbotService
                }
                fclose($h);
            }
-
+   
            echo "<pre>";
           print_r($the_big_array);
            echo "</pre>";
@@ -430,6 +431,18 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             var_dump($e);
             return false;
         }
+    }
+
+    public function getusers(){
+        $repository = $this->em->getRepository(User::class);
+        $user = $repository->findAll();
+        foreach ($user as $u) {
+            $phoneslist[] = array($u-> getUsername(),$u->getEmail(),$u->getLastLogin());
+        }
+        return $phoneslist;
+
+
+
     }
 
 

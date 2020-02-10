@@ -208,5 +208,20 @@ class ChatbotController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/api/getusers",name="getusers",methods={"POST"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getusers(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getusers();
+        return new JsonResponse($resp);
+    }
+
+
+
+
 
 }
