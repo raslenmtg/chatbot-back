@@ -160,14 +160,15 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             case 'abonn_etudiant':
                 return 'L’abonnement étudiant 🧑‍🎓 vous permet de vous déplacer librement sur l\'ensemble du réseau, tout en bénéficiant d’un  tarif préférentiel 🔥💰 .';
 
-            case 'recharger':
+            case "recharger":
                 if (isset ($content['entities']['type_produit'][0]['value'])) {
                     if ($content['entities']['type_produit'][0]['value']==='carte rechargeable' ){
                         return 'La carte rechargeable 🎫 vous permet de recharger autant de voyage que vous voulez et à 6dh par voyage. Elle est valable 5 ans. ';
                     }
+
                 }
-                else
-                    return 'Vous pouvez acheter ou recharger votre titre de transport/carte d\'abonnement dans les guichets automatiques situés à proximité des stations, dans nos agences ou chez nos revendeurs agréés. Vous pouvez trouver l\'agence ou le revendeur le plus proche en allant sur notre siteweb 🌐 https://www.casatramway.ma/fr/points-de-vente';
+                return 'Vous pouvez acheter ou recharger votre titre de transport/carte d\'abonnement dans les guichets automatiques situés à proximité des stations, dans nos agences ou chez nos revendeurs agréés. Vous pouvez trouver l\'agence ou le revendeur le plus proche en allant sur notre siteweb 🌐 https://www.casatramway.ma/fr/points-de-vente';
+
 
 
             case 'prix':
