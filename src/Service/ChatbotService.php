@@ -437,7 +437,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         $repository = $this->em->getRepository(User::class);
         $user = $repository->findAll();
         foreach ($user as $u) {
-            $phoneslist[] = array($u-> getUsername(),$u->getEmail(),$u->getLastLogin());
+            $phoneslist[] = array($u-> getId(),$u-> getUsername(),$u->getEmail(),$u->getLastLogin());
         }
         return $phoneslist;
 
