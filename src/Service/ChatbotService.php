@@ -39,21 +39,22 @@ class ChatbotService
 
     public function typeofmessage($data): ?string
     {
+        $intent='';
         /*   $filename = 'C:\Users\Med Raslen\Desktop\GPS station Casa.csv';
-           $the_big_array = [];
-           if (($h = fopen("{$filename}", "r")) !== FALSE)
-           {
-               while (($data = fgetcsv($h, 1000, ",")) !== FALSE)
-               {
-                   $the_big_array[] = $data;
-               }
-               fclose($h);
-           }
+        $the_big_array = [];
+        if (($h = fopen("{$filename}", "r")) !== FALSE)
+        {
+            while (($data = fgetcsv($h, 1000, ",")) !== FALSE)
+            {
+                $the_big_array[] = $data;
+            }
+            fclose($h);
+        }
 
-           echo "<pre>";
-          print_r($the_big_array);
-           echo "</pre>";
-           die();*/
+        echo "<pre>";
+       print_r($the_big_array);
+        echo "</pre>";
+        die();*/
         //////nombre de messages envoyés par utilisateur
         if ($this->session->has('nb_msg_user')) {
             $this->session->set('nb_msg_user', $this->session->get('nb_msg_user') + 1);
@@ -95,21 +96,41 @@ class ChatbotService
         } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
+
         if(isset ($content['entities']['station_proche'][0]['value'])){
             return 'La station la plus proche de vous est Station "XX". Vous pouvez vous y rendre ainsi ';
         }
 
         if(isset ($content['entities']['dest_map'][0]['value'])){
-            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station.';
+            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station.'+'https://www.google.com/maps/dir/?api=1&destination='+substr($content['_text'],11)+',casablanca,MA';
         }
         if(isset ($content['entities']['horaire'][0]['value'])){
             return 'Sauf perturbation, il y a un tramway chaque XX min à cette heure-ci. Le prochain devrait être à HH MM. ';
         }
 
+        if (isset($content["_text"])){
+            switch ($content["_text"]){
+                case "1" : $intent='horaire';
+                    break;
+                case "2" : $intent='aller';
+                    break;
+                case "3" : $intent='station_proche';
+                    break;
+                case "4" : $intent='recharger';
+                    break;
+                case "5" : $intent='avantage';
+                    break;
+                case "6" : $intent='service client';
+                    break;
+                case "7" : $intent='service client';
+                    break;
+            }
+        }
+
         if (isset ($content['entities']['intent'][0]['value'])) {
             $intent = $content['entities']['intent'][0]['value'];
 
-        } else {
+        } elseif ($intent==='') {
             /*
             $report = new  \App\Service\ChatbotReporting($this->em, $this->session);
             $report->reporting_parjour();*/
