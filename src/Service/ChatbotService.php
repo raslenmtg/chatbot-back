@@ -102,7 +102,7 @@ class ChatbotService
         }
 
         if(isset ($content['entities']['dest_map'][0]['value'])){
-            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station.'+'https://www.google.com/maps/dir/?api=1&destination='+substr($content['_text'],11)+',casablanca,MA';
+            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station.'.'https://www.google.com/maps/dir/?api=1&destination='.substr($content['_text'],11).',casablanca,MA';
         }
         if(isset ($content['entities']['horaire'][0]['value'])){
             return 'Sauf perturbation, il y a un tramway chaque XX min à cette heure-ci. Le prochain devrait être à HH MM. ';
