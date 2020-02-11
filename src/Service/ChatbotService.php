@@ -102,7 +102,7 @@ class ChatbotService
         }
 
         if(isset ($content['entities']['dest_map'][0]['value'])){
-            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station.';
+            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station. ';
         }
         if(isset ($content['entities']['horaire'][0]['value'])){
             return 'Sauf perturbation, il y a un tramway chaque XX min à cette heure-ci. Le prochain devrait être à HH MM. ';
@@ -154,7 +154,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                     $this->session->set('nb_user_contact', 1);
                 }
                 //////END
-                return $content['_text'] . ' , Je suis Trambot 🤖 Comment puis-je vous aider ? 🙂';
+                return $content['_text'] . ' , Je suis Trambot 🤖 , l\'assistant virtuelle Casatram. Comment puis-je vous aider ? 🙂';
 
             case 'station_proche':
                 // return 'Pour connaitre la plus proche station 🚉 de vous cliquer ci-dessous !!🗺️';
