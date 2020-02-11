@@ -40,21 +40,8 @@ class ChatbotService
     public function typeofmessage($data): ?string
     {
         $intent='';
-        /*   $filename = 'C:\Users\Med Raslen\Desktop\GPS station Casa.csv';
-        $the_big_array = [];
-        if (($h = fopen("{$filename}", "r")) !== FALSE)
-        {
-            while (($data = fgetcsv($h, 1000, ",")) !== FALSE)
-            {
-                $the_big_array[] = $data;
-            }
-            fclose($h);
-        }
 
-        echo "<pre>";
-       print_r($the_big_array);
-        echo "</pre>";
-        die();*/
+
         //////nombre de messages envoyés par utilisateur
         if ($this->session->has('nb_msg_user')) {
             $this->session->set('nb_msg_user', $this->session->get('nb_msg_user') + 1);
@@ -98,11 +85,15 @@ class ChatbotService
         }
 
         if(isset ($content['entities']['station_proche'][0]['value'])){
-            return 'La station la plus proche de vous est Station "XX". Vous pouvez vous y rendre ainsi ';
+            $place= substr($content['_text'],10);
+            $station= $this->getnearestplace($place);
+            return 'La station la plus proche de vous est Station '.$station[0].'. Vous pouvez vous y rendre ainsi https://www.google.com/maps/dir/?api=1&destination='.urlencode($station[0].',casablanca,MA');
         }
 
         if(isset ($content['entities']['dest_map'][0]['value'])){
-            return 'Vous devez descendre à la station "Nom de station". Voici l\'itinéraire à partir de la station. ';
+            $place= substr($content['_text'],11);
+            $station= $this->getnearestplace($place);
+            return 'Vous devez descendre à la station '.$station[0].'. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin='.urlencode($station[0].',casablanca,MA').'&destination='.urlencode($place) ;
         }
         if(isset ($content['entities']['horaire'][0]['value'])){
             return 'Sauf perturbation, il y a un tramway chaque XX min à cette heure-ci. Le prochain devrait être à HH MM. ';
@@ -469,6 +460,40 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
 
     }
+
+
+
+    public function getnearestplace($placetogo){
+
+        $client = HttpClient::create();
+        $response = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json', ['query' => ['region' => 'ma', 'address' => $placetogo,'key'=>$_ENV['google_map_key']]]);
+        $data=json_decode($response->getContent());
+        $lat=$data->results[0]->geometry->location->lat;
+        $lng=$data->results[0]->geometry->location->lng;
+
+        $filename = __DIR__.'/gpscasa.csv';
+
+        $the_big_array = [];
+        if (($h = fopen("{$filename}", "r")) !== FALSE)
+        {
+            while (($data = fgetcsv($h, 1000, ",")) !== FALSE)
+            {
+                $the_big_array[] = $data;
+            }
+            fclose($h);
+        }
+        $proche=array($the_big_array[0][0],abs($the_big_array[0][1]),abs($the_big_array[0][2]));
+        $min=array(50,50);
+        foreach ( $the_big_array as $location){
+            if(abs($location[1]-$lat)<$min[0] && abs($location[2]-$lng)<$min[1] ){
+                $min=array(abs($location[1]-$lat),abs($location[2]-$lng) );
+                $proche=array($location[0],$location[1],$location[2]);
+            }
+        }
+        return $proche;
+    }
+
+
 
 
 }
