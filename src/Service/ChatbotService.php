@@ -93,7 +93,7 @@ class ChatbotService
         if(isset ($content['entities']['dest_map'][0]['value'])){
             $place= substr($content['_text'],11);
             $station= $this->getnearestplace($place);
-            return 'Vous devez descendre à la station '.$station[0].'. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin='.urlencode($station[0].',casablanca,MA').'&destination='.urlencode($place) ;
+            return 'Vous devez descendre à la station '.$station[0].'. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin='.urlencode($station[0].',casablanca,MA').'&destination='.urlencode($place.',casablanca,MA') ;
         }
         if(isset ($content['entities']['horaire'][0]['value'])){
             return 'Sauf perturbation, il y a un tramway chaque XX min à cette heure-ci. Le prochain devrait être à HH MM. ';
@@ -149,11 +149,12 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
             case 'station_proche':
                 // return 'Pour connaitre la plus proche station 🚉 de vous cliquer ci-dessous !!🗺️';
-                $this->session->set('last_resp', 'get location');
                 return'Dans quel quartier 🗺️ vous trouvez vous ? Merci de répondre sous ce format : je suis à "Quartier"';
 
             case 'aller':
-                $this->session->set('last_resp', 'get location');
+                if(  isset($content['entities']['location'][0]['value'])){
+                    $this->session->set('location', $content['entities']['location'][0]['value']);}
+
                 return'Ou exactement voulez-vous vous rendre 🗺️ ? Merci de répondre sous ce format : Destination "Lieu" ?';
 
             case 'avantage':
