@@ -15,11 +15,10 @@ use Twilio\TwiML\MessagingResponse;
 
 class ChatbotController extends AbstractController
 {
-    private $session;
 
-    public function __construct(SessionInterface $session)
+    public function __construct()
     {
-        $this->session = $session;
+
     }
 
     /**
@@ -179,7 +178,7 @@ class ChatbotController extends AbstractController
 
 
     /**
-     * @Route("/api/deleteuser",name="deleteuser",methods={"GET"})
+     * @Route("/api/deleteuser",name="deleteuser",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
      * @return JsonResponse
@@ -201,12 +200,27 @@ class ChatbotController extends AbstractController
     {
         $resp = $chatbotService->adduser($request);
         if ($resp) {
-            return new JsonResponse(array('result' => 'succes'), 200);
+            return new JsonResponse(array('id' => $resp), 200);
         }
         else {
-            return new JsonResponse(null, 500);
+            return new JsonResponse(array('result'=>'error'), 500);
         }
     }
+
+    /**
+     * @Route("/api/getusers",name="getusers",methods={"POST"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function getusers(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->getusers();
+        return new JsonResponse($resp);
+    }
+
+
+
 
 
 }
