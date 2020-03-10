@@ -30,8 +30,8 @@ class Reportinghourly extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $handle = fopen(__DIR__."/reporting.txt", "r");
-        $contents = fread($handle, filesize(__DIR__."/reporting.txt"));
+        $handle = fopen(__DIR__ . "/reporting.csv", "r");
+        $contents = fread($handle, filesize(__DIR__ . "/reporting.csv"));
         fclose($handle);
         $x = new \DateTime();
         $output->writeln('hello cron !'.var_dump($contents));
