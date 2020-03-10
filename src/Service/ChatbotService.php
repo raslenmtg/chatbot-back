@@ -87,7 +87,28 @@ class ChatbotService
             return 'Vous devez descendre à la station ' . $station[0] . '. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin=' . $station[1] . ',' . $station[2] . '&destination=' . urlencode($place . ',casablanca,MA');
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
-            return 'Sauf perturbation, il y a un tramway chaque XX min à cette heure-ci. Le prochain devrait être à HH MM. ';
+            $string = $content['_text'];
+            $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
+
+            $mintime = '';
+            $taille_tab = count($content['entities']['datetime'][0]['values']);
+            for ($i = 1; $i < $taille_tab; $i++) {
+
+                if ($time > strtotime(substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8))) {
+                    $time = strtotime(substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8));
+                    $mintime = substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8);
+                }
+            }
+            if ($mintime == '')
+                $mintime = substr($content['entities']['datetime'][0]['value'], 11, 8);
+            $depart = trim(str_replace('"', '', substr($string, 7, strrpos(strtolower($string), 'heure', 0) - 7)));
+            $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direction', 0) + 9)));
+            $tempstheo = $this->getintervalle_ma($depart, $direction, $mintime);
+            if ($tempstheo === 'error')
+                return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo . ' min à cette heure-ci.';
+            // Le prochain devrait être à HH MM.
+            else
+                return $depart . ' et ' . $direction . ' ne sont pas sur la même ligne';
         }
         if (isset($content["_text"])) {
             switch ($content["_text"]) {
@@ -547,12 +568,12 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                 $mintime = substr($content['entities']['datetime'][0]['value'], 11, 8);
             $depart = trim(str_replace('"', '', substr($string, 7, strrpos(strtolower($string), 'heure', 0) - 7)));
             $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direction', 0) + 9)));
-            $tempstheo = $this->getintervalle_ma($depart, $direction, $mintime);
-            if ($tempstheo == 'error')
-                return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo . ' min à cette heure-ci.';
-            // Le prochain devrait être à HH MM.
-            else
+            $tempstheo = $this->getintervalle_al($depart, $direction, $mintime);
+            if ($tempstheo === 'error')
                 return $depart . ' et ' . $direction . ' ne sont pas sur la même ligne';
+            else
+            return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo . ' min à cette heure-ci.';
+            // Le prochain devrait être à HH MM.
         }
         if (isset ($content['entities']['dest_map'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 11);
@@ -727,8 +748,8 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         $T1 = array("Sidi Moumen", "Ennassim", "Mohammed Zefzaf", "Centre de maintenance", "Hôpital Sidi Moumen", "Attachourk", "Okba Ibn Nafii", "Forces auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grand ceinture", "Anciens abattoirs", "Bd Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Wafasalaf", "Faculté de Médecine", "Abdelmoumen", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zénith", "Gare Casa Sud", "Facultés", "Al Laymoune", "TERMINUS LISSASFA");
         $T2 = array("Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare de Ain Sbaa", "Préfecture Ain Sbaa", "AL Amane", "Wifaq", "Dar Laman", "Carrières centrale", "Qayssariat Hay Mohammadi", "Station Mdakra", "Hay Adil", "Cimetière Achohada", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Clubs", "Anfa Park", "Casa Finance", "Abdellah Ben Cherif", "Cité de l'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Dhiab Plage Terminus");
         foreach ($T1 as $location) {
-            $similar_text_depart = similar_text($location, $d);
-            $similar_text_direc = similar_text($location, $dir);
+            $similar_text_depart = similar_text(strtolower($location),strtolower( $d));
+            $similar_text_direc = similar_text(strtolower($location),strtolower( $dir));
             if ($similar_text_depart > $max_similarity_dep) {
                 $depart = $location;
                 $max_similarity_dep = $similar_text_depart;
@@ -739,8 +760,8 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             }
         }
         foreach ($T2 as $location) {
-            $similar_text_depart = similar_text($location, $d);
-            $similar_text_direc = similar_text($location, $dir);
+            $similar_text_depart = similar_text(strtolower($location),strtolower( $d));
+            $similar_text_direc = similar_text(strtolower($location),strtolower( $dir));
             if ($similar_text_depart > $max_similarity_dep) {
                 $depart = $location;
                 $max_similarity_dep = $similar_text_depart;
@@ -842,6 +863,73 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         $this->em->remove($times);
         $this->em->flush();
         return array("result" => true);
+
+    }
+
+    public function getintervalle_al($d, $dir, $time)
+    {
+        $max_similarity_dep = 0;
+        $max_similarity_fin = 0;
+        $depart = '';
+        $direction = '';
+        $T1=array("Place des Martyrs","Ali BOUMENDJEL","Tafourah – Grande Poste","Khelifa BOUKHALFA","1er Mai","Aissat IDIR","Hamma","Jardin d’Essais","Les Fusillés","AMIROUCHE","Mer & Soleil","Hay El Badr","Bachdjarah Tennis","Bachdjarah","El Harrach Gare","El Harrach Centre");
+        $T2=array("Hay El Badr","Les Ateliers","Gué de Constantine","Aïn Naâdja");
+       foreach ($T1 as $location) {
+            $similar_text_depart = similar_text(strtolower( $location),strtolower( $d));
+            $similar_text_direc = similar_text(strtolower($location), strtolower($dir));
+            if ($similar_text_depart > $max_similarity_dep) {
+                $depart = $location;
+                $max_similarity_dep = $similar_text_depart;
+            }
+            if ($similar_text_direc > $max_similarity_fin) {
+                $direction = $location;
+                $max_similarity_fin = $similar_text_direc;
+            }
+        }
+        foreach ($T2 as $location) {
+            $similar_text_depart = similar_text(strtolower($location),strtolower( $d));
+            $similar_text_direc = similar_text(strtolower($location), strtolower($dir));
+            if ($similar_text_depart > $max_similarity_dep) {
+                $depart = $location;
+                $max_similarity_dep = $similar_text_depart;
+            }
+            if ($similar_text_direc > $max_similarity_fin) {
+                $direction = $location;
+                $max_similarity_fin = $similar_text_direc;
+            }
+        }
+        if (array_keys($T1, $depart) && array_keys($T1, $direction)) {
+            //echo array_keys($T1,$depart)[0].array_keys($T1,$direction)[0];
+            if (array_keys($T1, $depart)[0] < array_keys($T1, $direction)[0]) {
+                $depart = 'Sidi Moumen';
+                $direction = 'Lissasfa';
+            } else {
+                $depart = 'Lissasfa';
+                $direction = 'Sidi Moumen';
+            }
+
+        } elseif (array_keys($T2, $depart) && array_keys($T2, $direction)) {
+
+            if (array_keys($T2, $depart)[0] < array_keys($T2, $direction)[0]) {
+                $depart = 'Bernoussi';
+                $direction = 'Ain Dhiab';
+            } else {
+                $depart = 'Ain Dhiab';
+                $direction = 'Bernoussi';
+            }
+        } else {
+            return 'error';
+        }
+        $ss = ChatbotService::dateToFrench("now", "l");
+        // $heure_th=DateTime::createFromFormat('H:i',substr($time,10,8));
+        //  dd(DateTime::getLastErrors());
+        $reports = $this->temprepo->findintervalle($ss, $time, $depart, $direction);
+        if (isset($reports[0])) {
+            $temp_theo = $reports[0]->getIntervalle()->format('i');
+            return $temp_theo;
+        } else{
+            return 'error';}
+
 
     }
 
