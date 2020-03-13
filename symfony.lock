@@ -1,4 +1,10 @@
 {
+    "cron/cron": {
+        "version": "1.4.1"
+    },
+    "cron/cron-bundle": {
+        "version": "2.2.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -540,6 +546,9 @@
     },
     "twig/twig": {
         "version": "v2.12.0"
+    },
+    "twilio/sdk": {
+        "version": "5.41.1"
     },
     "webmozart/assert": {
         "version": "1.5.0"

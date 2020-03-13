@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" />
-    </list>
+    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="diffrent changes" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +16,16 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="chatbot_back" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTTP Request" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -132,13 +143,23 @@
       <path value="$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/templating" />
       <path value="$PROJECT_DIR$/vendor/nelmio/cors-bundle" />
+      <path value="$PROJECT_DIR$/vendor/cron/cron-bundle" />
+      <path value="$PROJECT_DIR$/vendor/cron/cron" />
+      <path value="$PROJECT_DIR$/vendor/twilio/sdk" />
     </include_path>
   </component>
   <component name="ProjectId" id="1S3q8wEcogp2HpTtgTkqjbBQYSF" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\chatbot_project\chatbot_back\src\Service" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -151,6 +172,20 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager" selected="PHP Script.composer_stats.php">
+    <configuration name="ChatbotController.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/src/Controller/ChatbotController.php">
+      <method v="2" />
+    </configuration>
+    <configuration name="composer_stats.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/public/composer_stats.php">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHP Script.composer_stats.php" />
+        <item itemvalue="PHP Script.ChatbotController.php" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -172,21 +207,294 @@
       <workItem from="1572431340258" duration="1560000" />
       <workItem from="1572865023907" duration="1310000" />
       <workItem from="1572866465722" duration="611000" />
+      <workItem from="1573032430881" duration="2784000" />
+      <workItem from="1573579089619" duration="11124000" />
+      <workItem from="1573661472012" duration="1383000" />
+      <workItem from="1573722236633" duration="780000" />
+      <workItem from="1573734734746" duration="2995000" />
+      <workItem from="1573809076579" duration="5452000" />
+      <workItem from="1574066526982" duration="17023000" />
+      <workItem from="1574154220746" duration="13633000" />
+      <workItem from="1574238812308" duration="2600000" />
+      <workItem from="1574325962669" duration="10061000" />
+      <workItem from="1574414813244" duration="229000" />
+      <workItem from="1574427361507" duration="389000" />
+      <workItem from="1574673002628" duration="10851000" />
+      <workItem from="1574699127732" duration="567000" />
+      <workItem from="1574699725297" duration="3357000" />
+      <workItem from="1574761317969" duration="1398000" />
+      <workItem from="1574863439098" duration="1828000" />
+      <workItem from="1574957084804" duration="20000" />
+      <workItem from="1575278703343" duration="7660000" />
+      <workItem from="1575363726659" duration="4005000" />
+      <workItem from="1575448752972" duration="16887000" />
+      <workItem from="1575536010352" duration="16919000" />
+      <workItem from="1575620303478" duration="1593000" />
+      <workItem from="1575629765422" duration="618000" />
+      <workItem from="1575639877441" duration="50000" />
+      <workItem from="1575640025298" duration="35000" />
+      <workItem from="1575643380670" duration="4298000" />
+      <workItem from="1575881515677" duration="3503000" />
+      <workItem from="1575966911144" duration="4682000" />
+      <workItem from="1576056051419" duration="17053000" />
+      <workItem from="1576243481708" duration="674000" />
+      <workItem from="1576490545703" duration="2666000" />
+      <workItem from="1576509559647" duration="11000" />
+      <workItem from="1576510097378" duration="143000" />
+      <workItem from="1576589640830" duration="711000" />
+      <workItem from="1576747058574" duration="760000" />
+      <workItem from="1576748714947" duration="334000" />
+      <workItem from="1577183880955" duration="159000" />
+      <workItem from="1577184075734" duration="952000" />
+      <workItem from="1577439168010" duration="7042000" />
+      <workItem from="1577446753387" duration="4890000" />
+      <workItem from="1577954459295" duration="1716000" />
+      <workItem from="1578042190899" duration="10474000" />
+      <workItem from="1578057980133" duration="2175000" />
+      <workItem from="1578316934255" duration="5194000" />
+      <workItem from="1579094260822" duration="879000" />
+      <workItem from="1579095148871" duration="1642000" />
+      <workItem from="1579170373354" duration="11372000" />
+      <workItem from="1579258786430" duration="3066000" />
+      <workItem from="1579275465757" duration="1121000" />
+      <workItem from="1579520590191" duration="1368000" />
+      <workItem from="1579614050792" duration="3347000" />
+      <workItem from="1579866664837" duration="2599000" />
+      <workItem from="1580120697042" duration="1114000" />
+      <workItem from="1580463595188" duration="8206000" />
+      <workItem from="1580721518450" duration="12689000" />
+      <workItem from="1580805688911" duration="19617000" />
+      <workItem from="1580890658363" duration="576000" />
+      <workItem from="1580891760225" duration="1496000" />
+      <workItem from="1580896236070" duration="5713000" />
+      <workItem from="1580981102486" duration="8672000" />
+      <workItem from="1581066513067" duration="12364000" />
+      <workItem from="1581325678103" duration="13418000" />
+      <workItem from="1581411355786" duration="11973000" />
+      <workItem from="1581689061841" duration="1453000" />
+      <workItem from="1581932384472" duration="2000" />
+      <workItem from="1581933603276" duration="18413000" />
+      <workItem from="1582019041734" duration="926000" />
+      <workItem from="1582101465681" duration="217000" />
+      <workItem from="1582295331310" duration="37000" />
+      <workItem from="1582735163203" duration="888000" />
+      <workItem from="1582796166853" duration="11952000" />
+      <workItem from="1582902831626" duration="3378000" />
+      <workItem from="1583139909254" duration="2091000" />
+      <workItem from="1583142989950" duration="10261000" />
+      <workItem from="1583244835859" duration="449000" />
+      <workItem from="1583245421727" duration="642000" />
+      <workItem from="1583249125387" duration="79000" />
+      <workItem from="1583314933885" duration="10095000" />
+      <workItem from="1583487962507" duration="16134000" />
+      <workItem from="1583746315928" duration="13531000" />
+      <workItem from="1583831969041" duration="15791000" />
+      <workItem from="1583918325879" duration="2705000" />
+      <workItem from="1583921108858" duration="12694000" />
+      <workItem from="1583943051417" duration="995000" />
+      <workItem from="1584007574095" duration="724000" />
+      <workItem from="1584093199386" duration="72000" />
+      <workItem from="1584131548409" duration="186000" />
     </task>
+    <task id="LOCAL-00001" summary="diffrent changes">
+      <created>1573809621876</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1573809621876</updated>
+    </task>
+    <task id="LOCAL-00002" summary="diffrent changes">
+      <created>1573823750020</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1573823750020</updated>
+    </task>
+    <task id="LOCAL-00003" summary="diffrent changes">
+      <created>1573827751412</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1573827751412</updated>
+    </task>
+    <task id="LOCAL-00004" summary="diffrent changes">
+      <created>1573832080360</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1573832080360</updated>
+    </task>
+    <task id="LOCAL-00005" summary="diffrent changes">
+      <created>1574348421130</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1574348421130</updated>
+    </task>
+    <task id="LOCAL-00006" summary="diffrent changes">
+      <created>1574680161386</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1574680161386</updated>
+    </task>
+    <task id="LOCAL-00007" summary="diffrent changes">
+      <created>1574762062676</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1574762062676</updated>
+    </task>
+    <task id="LOCAL-00008" summary="diffrent changes">
+      <created>1575306299926</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1575306299926</updated>
+    </task>
+    <task id="LOCAL-00009" summary="diffrent changes">
+      <created>1575639895427</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1575639895427</updated>
+    </task>
+    <task id="LOCAL-00010" summary="diffrent changes">
+      <created>1575640053229</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1575640053229</updated>
+    </task>
+    <task id="LOCAL-00011" summary="diffrent changes">
+      <created>1575969587151</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1575969587151</updated>
+    </task>
+    <task id="LOCAL-00012" summary="diffrent changes">
+      <created>1575972436032</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1575972436032</updated>
+    </task>
+    <task id="LOCAL-00013" summary="diffrent changes">
+      <created>1576062567989</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1576062567989</updated>
+    </task>
+    <task id="LOCAL-00014" summary="diffrent changes">
+      <created>1576747763906</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1576747763906</updated>
+    </task>
+    <task id="LOCAL-00015" summary="diffrent changes">
+      <created>1577183933171</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1577183933171</updated>
+    </task>
+    <task id="LOCAL-00016" summary="diffrent changes">
+      <created>1580834629374</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1580834629374</updated>
+    </task>
+    <task id="LOCAL-00017" summary="diffrent changes">
+      <created>1580914967721</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1580914967721</updated>
+    </task>
+    <task id="LOCAL-00018" summary="diffrent changes">
+      <created>1580919434270</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1580919434271</updated>
+    </task>
+    <task id="LOCAL-00019" summary="diffrent changes">
+      <created>1581005426532</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1581005426532</updated>
+    </task>
+    <task id="LOCAL-00020" summary="diffrent changes">
+      <created>1581011641317</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1581011641317</updated>
+    </task>
+    <task id="LOCAL-00021" summary="diffrent changes">
+      <created>1581066924345</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1581066924345</updated>
+    </task>
+    <task id="LOCAL-00022" summary="diffrent changes">
+      <created>1581092628526</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1581092628527</updated>
+    </task>
+    <task id="LOCAL-00023" summary="diffrent changes">
+      <created>1581960958675</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1581960958675</updated>
+    </task>
+    <task id="LOCAL-00024" summary="diffrent changes">
+      <created>1583850990823</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1583850990823</updated>
+    </task>
+    <task id="LOCAL-00025" summary="diffrent changes">
+      <created>1583854016460</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1583854016460</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="diffrent changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="diffrent changes" />
   </component>
 </project>
