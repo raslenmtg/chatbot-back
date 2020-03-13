@@ -43,26 +43,7 @@ class ChatbotController extends AbstractController
     }
 
 
-    /**
-     * @Route("/chatbot/al",name="chatbot_alger", methods={"POST"})
-     * @param Request $request
-     * @param ChatbotService $chatbotService
-     * @return Response
-     */
-    public function ChatbotService_alger(Request $request, ChatbotService $chatbotService): Response
-    {
-        /*
-                $response = new MessagingResponse();
-                $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
-                $answer = $chatbotService->typeofmessage($data);
-                $response->message($answer);
-                return Response::create($response, 200, array());
-        */
 
-        $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
-        $answer = $chatbotService->typeofmessage_alger($data);
-        return Response::create($answer, 200, array());
-    }
 
     /**
      * @Route("/api/getphones",name="chatbot_phones", methods={"POST"})
@@ -238,6 +219,45 @@ class ChatbotController extends AbstractController
         return new JsonResponse($resp);
     }
 
+
+    /**
+     * @Route("/api/addfirstlast",name="addfirstlast",methods={"POST"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function addfirstlast(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->addfirstlast($request);
+        return new JsonResponse($resp);
+    }
+
+
+    /**
+     * @Route("/api/get_list_firstlast",name="get_list_firstlast",methods={"GET"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function get_list_firstlast(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        $resp = $chatbotService->get_list_firstlast($request);
+        return new JsonResponse($resp);
+    }
+
+
+    /**
+     * @Route("/api/delete_firstlast/{id}",name="delete_firstlast",methods={"POST"})
+     * @param Request $request
+     * @param ChatbotService $chatbotService
+     * @return JsonResponse
+     */
+    public function delete_firstlast(Request $request, ChatbotService $chatbotService): ?JsonResponse
+    {
+        //  dd( $request->get('id'));
+        $resp = $chatbotService->delete_firstlast($request->get('id'));
+        return new JsonResponse($resp);
+    }
 
 
 
