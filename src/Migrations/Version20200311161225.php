@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200311124448 extends AbstractMigration
+final class Version20200311161225 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -23,7 +23,8 @@ final class Version20200311124448 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SEQUENCE Firstlasttram_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE Firstlasttram (id INT NOT NULL, depart VARCHAR(255) NOT NULL, jour VARCHAR(255) NOT NULL, heure TIME(0) WITHOUT TIME ZONE NOT NULL, first BOOLEAN NOT NULL, last BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE Firstlasttram (id INT NOT NULL, depart VARCHAR(255) NOT NULL, jour VARCHAR(255) NOT NULL, heure TIME(0) WITHOUT TIME ZONE NOT NULL, first BOOLEAN NOT NULL, PRIMARY KEY(id))');
+
     }
 
     public function down(Schema $schema) : void

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200311092157 extends AbstractMigration
+final class Version20200313084810 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,8 +22,8 @@ final class Version20200311092157 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE SEQUENCE TempThAl_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE TempThAl (id INT NOT NULL, arrive VARCHAR(255) NOT NULL, depart VARCHAR(255) NOT NULL, jour VARCHAR(255) NOT NULL, h_fin TIME(0) WITHOUT TIME ZONE NOT NULL, h_depart TIME(0) WITHOUT TIME ZONE NOT NULL, intervalle TIME(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE SEQUENCE Sendnotif_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE TABLE Sendnotif (id INT NOT NULL, message VARCHAR(255) DEFAULT NULL, url VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
     }
 
     public function down(Schema $schema) : void
@@ -32,7 +32,7 @@ final class Version20200311092157 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('DROP SEQUENCE TempThAl_id_seq CASCADE');
-     $this->addSql('DROP TABLE TempThAl');
+        $this->addSql('DROP SEQUENCE Sendnotif_id_seq CASCADE');
+      $this->addSql('DROP TABLE Sendnotif');
     }
 }

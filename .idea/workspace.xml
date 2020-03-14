@@ -4,7 +4,20 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="diffrent changes" />
+    <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Entity/Firstlasttram.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/gpsitalie.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/doctrine.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ChatbotController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ChatbotController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ChatbotReporting.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ChatbotService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ChatbotService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ChatbotService_IT.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Reportinghourly.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Reportinghourly.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/gpsalger.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/gpscasa.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/reporting.csv" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,11 +165,15 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Entity" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\chatbot_project\chatbot_back\src\Entity" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\chatbot_project\chatbot_back\src\Service" />
     </key>
@@ -186,6 +203,16 @@
         <item itemvalue="PHP Script.ChatbotController.php" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand />
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -289,12 +316,16 @@
       <workItem from="1583487962507" duration="16134000" />
       <workItem from="1583746315928" duration="13531000" />
       <workItem from="1583831969041" duration="15791000" />
-      <workItem from="1583918325879" duration="2705000" />
-      <workItem from="1583921108858" duration="12694000" />
-      <workItem from="1583943051417" duration="995000" />
-      <workItem from="1584007574095" duration="724000" />
-      <workItem from="1584093199386" duration="72000" />
-      <workItem from="1584131548409" duration="186000" />
+      <workItem from="1583918325879" duration="4609000" />
+      <workItem from="1583942980570" duration="5003000" />
+      <workItem from="1584004389822" duration="4657000" />
+      <workItem from="1584009630458" duration="145000" />
+      <workItem from="1584009872646" duration="1209000" />
+      <workItem from="1584024914108" duration="6112000" />
+      <workItem from="1584087842678" duration="5444000" />
+      <workItem from="1584093303054" duration="5445000" />
+      <workItem from="1584108846291" duration="7634000" />
+      <workItem from="1584132547241" duration="7635000" />
     </task>
     <task id="LOCAL-00001" summary="diffrent changes">
       <created>1573809621876</created>

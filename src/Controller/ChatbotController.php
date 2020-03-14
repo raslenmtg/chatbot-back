@@ -9,38 +9,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twilio\TwiML\MessagingResponse;
 
 class ChatbotController extends AbstractController
 {
-
     public function __construct()
     {
     }
 
     /**
-     * @Route("/chatbot/al",name="chatbot_alger", methods={"POST"})
+     * @Route("/chatbot/ma",name="chatbot_it", methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
      * @return Response
      */
-    public function ChatbotService_alger(Request $request, ChatbotService $chatbotService): Response
+    public function ChatbotService(Request $request, ChatbotService $chatbotService): Response
     {
-      
-                $response = new MessagingResponse();
-                $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
-                $answer = $chatbotService->typeofmessage($data);
-                $response->message($answer);
-                return Response::create($response, 200, array());
-       
-  /*
+/*
+        $response = new MessagingResponse();
         $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
-        $answer = $chatbotService->typeofmessage_alger($data);
+        $answer = $chatbotService->typeofmessage($data);
+        $response->message($answer);
+        return Response::create($response, 200, array());
+*/
+
+        $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
+        $answer = $chatbotService->typeofmessage_it($data);
         return Response::create($answer, 200, array());
-         */
     }
+
+
+
 
     /**
      * @Route("/api/getphones",name="chatbot_phones", methods={"POST"})
@@ -255,6 +255,7 @@ class ChatbotController extends AbstractController
         $resp = $chatbotService->delete_firstlast($request->get('id'));
         return new JsonResponse($resp);
     }
+
 
 
 
