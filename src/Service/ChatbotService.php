@@ -344,7 +344,7 @@ class ChatbotService
         }
         if (isset ($content['entities']['intent'][0]['value'])) {
             $intent = $content['entities']['intent'][0]['value'];
-        } elseif ($intent === '') {
+        } elseif (!isset($intent)) {
             return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
 1 - Horaires tramway
 2 - Itinéraire 
