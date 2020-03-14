@@ -28,17 +28,18 @@ class ChatbotController extends AbstractController
      */
     public function ChatbotService_alger(Request $request, ChatbotService $chatbotService): Response
     {
-        /*
+      
                 $response = new MessagingResponse();
                 $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
                 $answer = $chatbotService->typeofmessage($data);
                 $response->message($answer);
                 return Response::create($response, 200, array());
-        */
-
+       
+  /*
         $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
         $answer = $chatbotService->typeofmessage_alger($data);
         return Response::create($answer, 200, array());
+         */
     }
 
     /**
