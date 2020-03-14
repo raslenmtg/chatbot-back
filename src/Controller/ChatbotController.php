@@ -31,7 +31,7 @@ class ChatbotController extends AbstractController
       
                 $response = new MessagingResponse();
                 $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
-                $answer = $chatbotService->typeofmessage($data);
+                $answer = $chatbotService->typeofmessage_alger($data);
                 $response->message($answer);
                 return Response::create($response, 200, array());
        
