@@ -512,7 +512,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
         //  dd(DateTime::getLastErrors());
         $oldLocale = setlocale(LC_TIME, 'it_IT');
         $jours = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica'];
-        $reports = $this->temprepo->findintervalle($jours[date('N')], $time, $depart, $direction);
+        $reports = $this->temprepo->findintervalle($jours[date('N')-1], $time, $depart, $direction);
         if (isset($reports[0])) {
             $temp_theo = $reports[0]->getIntervalle()->format('i');
 
