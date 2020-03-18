@@ -239,9 +239,17 @@ class ChatbotService
         $proche = array($the_big_array[0][0], abs($the_big_array[0][1]), abs($the_big_array[0][2]));
         $min = array(50, 50);
         foreach ($the_big_array as $location) {
-            if ((abs($location[1] - $lat) < $min[0] && abs($location[2] - $lng) < $min[1])) {
-                $min = array(abs($location[1] - $lat), abs($location[2] - $lng));
+           
+            $theta = $location[2] - $lng;
+            $dist = sin(deg2rad($lat)) * sin(deg2rad($location[1])) +  cos(deg2rad($lat)) * cos(deg2rad($location[1])) * cos(deg2rad($theta));
+            $dist = acos($dist);
+            $dist = rad2deg($dist);
+            $miles = $dist * 60 * 1.1515;
+
+            if($min>$miles){
                 $proche = array($location[0], $location[1], $location[2]);
+                $min=$miles;
+
             }
         }
         return $proche;
