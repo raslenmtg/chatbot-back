@@ -54,7 +54,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
-     * @Route("/api/sendnotif",name="sendnotif",methods={"POST"})
+     * @Route("sendnotif",name="sendnotif",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
      * @return JsonResponse
