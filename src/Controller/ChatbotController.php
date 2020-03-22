@@ -29,17 +29,17 @@ class ChatbotController extends AbstractController
      */
     public function ChatbotService(Request $request, ChatbotService $chatbotService): Response
     {
-/*
+
         $response = new MessagingResponse();
         $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
         $answer = $chatbotService->typeofmessage($data);
         $response->message($answer);
         return Response::create($response, 200, array());
-*/
 
-        $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
+
+      /*  $data = array('message' => $request->get('Body'), 'phone_number' => substr($request->get('From'), 9));
         $answer = $chatbotService->typeofmessage($data);
-        return Response::create($answer, 200, array());
+        return Response::create($answer, 200, array());*/
     }
 
 
@@ -57,7 +57,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
-     * @Route("/api/sendnotif",name="sendnotif",methods={"POST"})
+     * @Route("sendnotif",name="sendnotif",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
      * @return JsonResponse
