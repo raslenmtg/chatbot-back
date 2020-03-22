@@ -19,7 +19,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
-     * @Route("/chatbot/ma",name="chatbot_it", methods={"POST"})
+     * @Route("chatbot/it",name="chatbot_it", methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
      * @return Response
@@ -54,7 +54,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
-     * @Route("/api/sendnotif",name="sendnotif",methods={"POST"})
+     * @Route("sendnotif",name="sendnotif",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
      * @return JsonResponse
@@ -62,12 +62,11 @@ class ChatbotController extends AbstractController
     public function Sendnotif(Request $request, ChatbotService $chatbotService): ?JsonResponse
     {
         $response = $chatbotService->Sendnotif($request);
-
-        if ($response) {
-            return new JsonResponse(array('result' => 'succes'), 200);
+        if ($response==='success') {
+            return new JsonResponse(array('result' => 'success'), 200);
         }
         else {
-            return new JsonResponse(null, 500);
+            return new JsonResponse($response, 500);
         }
     }
 

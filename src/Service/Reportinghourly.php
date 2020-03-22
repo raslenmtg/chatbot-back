@@ -153,7 +153,6 @@ class Reportinghourly extends Command
                                 )
                             );
                     } catch (Exception $e) {
-                        var_dump($e);
                     }
                 }
             }

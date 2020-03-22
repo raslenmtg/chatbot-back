@@ -287,27 +287,31 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
 
     }
 
-    public function Sendnotif(Request $request): bool
+    public function Sendnotif(Request $request)
     {
-        $hour = $request->get('hour');
-        $minute = $request->get('minute');
-        $message = $request->get('message');
-        $notif = new Sendnotif();
-        $notif->setMessage($message);
-        if (isset($_FILES['file'])) {
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $_FILES['file']['name'])) {
-                $notif->setUrl($_SERVER['DOCUMENT_ROOT'] . $_FILES['file']['name']);
-            }
+        try {
+            $hour = $request->get('hour');
+            $minute = $request->get('minute');
+            $message = $request->get('message');
+            $notif = new Sendnotif();
+            $notif->setMessage($message);
+            if ( $request->files->get('file') ) {
+                $filename=$request->files->get('file')->getClientOriginalName();
+               $request->files->get('file')->move('files',$filename);
+                $notif->setUrl($_SERVER['DOCUMENT_ROOT'] .'files/'.$filename );
+                }
+            $this->em->persist($notif);
+            $this->em->flush();
+            $hour = $hour < 10 ? '0' . $hour : $hour;
+            $minute = $minute < 10 ? '0' . $minute : $minute;
+            $process = new Process('at' . $hour . ':' . $minute . ' ' . str_replace('-', '/', $request->get('date')));
+            $process->run();
+            $process = new Process('php bin/console sendnotif ' . $notif->getId());
+            $process->run();
+        } catch (Exception $e) {
+      return $e->getMessage();
         }
-        $this->em->persist($notif);
-        $this->em->flush();
-        $hour = $hour < 10 ? '0' . $hour : $hour;
-        $minute = $minute < 10 ? '0' . $minute : $minute;
-        $process = new Process('at' . $hour . ':' . $minute . ' ' . str_replace('-', '/', $request->get('date')));
-        $process->run();
-        $process = new Process('php bin/console sendnotif ' . $notif->getId());
-        $process->run();
-        return true;
+        return 'success';
     }
 
     public function Getphones(): array
