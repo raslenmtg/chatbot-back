@@ -320,10 +320,10 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         $message = $request->get('message');
         $notif=new Sendnotif();
         $notif->setMessage($message);
-        if (isset($_FILES['file'])) {
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $_FILES['file']['name'])) {
-                $notif->setUrl($_SERVER['DOCUMENT_ROOT'] . $_FILES['file']['name']);
-            }
+        if ( $request->files->get('file') ) {
+            $filename=$request->files->get('file')->getClientOriginalName();
+            $request->files->get('file')->move('files',$filename);
+            $notif->setUrl($_SERVER['DOCUMENT_ROOT'] .'files/'.$filename );
         }
         $this->em->persist($notif);
         $this->em->flush();
