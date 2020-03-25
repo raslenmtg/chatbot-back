@@ -81,6 +81,26 @@ class ChatbotService
             return 'Server offline';
         }
 
+        if (stripos($content['_text'],'premier') !==false ){
+            if(isset($content['entities']['datetime'][1]['values'][0]['value'])){
+                $pre=$this->getfirstlast(true,$content['entities']['datetime'][1]['values'][0]['value']);
+            }else
+                $pre=$this->getfirstlast(true,null);
+            return 'l\'elenco delle prime metro: '.$pre;
+        }
+        if (stripos($content['_text'],'dernier') !==false ){
+            if(isset($content['entities']['datetime'][0]['value'])){
+                $pre=$this->getfirstlast(false,$content['entities']['datetime'][0]['value']);
+            }else
+                $pre=$this->getfirstlast(false,null);
+            if($pre!=='')
+                return 'l\'elenco degli ultimi metro: '.$pre;
+            else
+                return 'Spiacenti, al momento questa informazione non è disponibile';
+        }
+
+
+
         if (isset ($content['entities']['station_proche'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 13);
 
@@ -635,6 +655,19 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
         $this->em->remove($times);
         $this->em->flush();
         return array("result" => true);
+    }
+
+    public function getfirstlast($first,$date=null){
+
+        $ss = $date?ChatbotService::dateToFrench($date, "l"):ChatbotService::dateToFrench("now", "l");
+        $repository = $this->em->getRepository(Firstlasttram::class);
+        $times = $repository->findBy(array('first'=>$first,'jour'=>$ss));
+        $res='';
+        foreach ($times as $time){
+            $res=$res.$time->getDepart().' '.$time->getHeure()->format('H:m:s').' ';
+        }
+        return $res;
+
     }
 
 

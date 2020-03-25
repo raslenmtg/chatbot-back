@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f2e1b1d2-de2d-4689-9ef6-89076aded8a5" name="Default Changelist" comment="diffrent changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/MaxthonSnap20200310165146.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/reporting.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/ChatbotService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ChatbotService.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -318,6 +320,11 @@
       <workItem from="1584132547241" duration="7635000" />
       <workItem from="1584219436685" duration="1538000" />
       <workItem from="1584377007957" duration="1838000" />
+      <workItem from="1584458437330" duration="4951000" />
+      <workItem from="1584527167972" duration="4000" />
+      <workItem from="1584527243369" duration="22000" />
+      <workItem from="1584879144529" duration="10240000" />
+      <workItem from="1585150319760" duration="579000" />
     </task>
     <task id="LOCAL-00001" summary="diffrent changes">
       <created>1573809621876</created>
