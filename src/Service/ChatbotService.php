@@ -78,6 +78,24 @@ class ChatbotService
         } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
+        if (stripos($content['_text'],'premier') !==false ){
+            if(isset($content['entities']['datetime'][1]['values'][0]['value'])){
+                $pre=$this->getfirstlast(true,$content['entities']['datetime'][1]['values'][0]['value']);
+            }else
+                $pre=$this->getfirstlast(true,null);
+            return 'la liste des premiers Tram: '.$pre;
+        }
+        if (stripos($content['_text'],'dernier') !==false ){
+            if(isset($content['entities']['datetime'][0]['value'])){
+                $pre=$this->getfirstlast(false,$content['entities']['datetime'][0]['value']);
+            }else
+                $pre=$this->getfirstlast(false,null);
+            if($pre!=='')
+                return 'la liste des derniers Tram: '.$pre;
+            else
+                return 'Désolée cette information n\'est pas disponible pour le moment';
+        }
+
         if (isset ($content['entities']['station_proche'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 10);
             $station = $this->getnearestplace($place, '/gpscasa.csv', 'ma');
@@ -664,6 +682,18 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         return array("result" => true);
     }
 
+    public function getfirstlast($first,$date=null){
+
+        $ss = $date?ChatbotService::dateToFrench($date, "l"):ChatbotService::dateToFrench("now", "l");
+        $repository = $this->em->getRepository(Firstlasttram::class);
+        $times = $repository->findBy(array('first'=>$first,'jour'=>$ss));
+        $res='';
+        foreach ($times as $time){
+            $res=$res.$time->getDepart().' '.$time->getHeure()->format('H:m:s').' ';
+        }
+        return $res;
+
+    }
 
 
 }
