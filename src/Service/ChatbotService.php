@@ -263,14 +263,6 @@ class ChatbotService
         } else {
             $this->session->set('nb_msg_user', 1);
         }
-        /* $handle = fopen(__DIR__ . '/reporting.csv', "r+");
-        $content= fread($handle,filesize(__DIR__ .'/reporting.csv'));
-        $d=explode(',',$content);
-        $write=$this->session->get('nb_msg_user').','.$d[1].','.$d[2];
-         fwrite($handle,$write);
-         fclose($handle);*/
-        //////END
-
         $message = $data['message'];
         $phone = $data['phone_number'];
         $new_phone = $this->addphone($phone);
@@ -292,6 +284,25 @@ class ChatbotService
         } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
         }
+        if (stripos($content['_text'],'premier') !==false ){
+            if(isset($content['entities']['datetime'][1]['values'][0]['value'])){
+                $pre=$this->getfirstlast(true,$content['entities']['datetime'][1]['values'][0]['value']);
+            }else
+                $pre=$this->getfirstlast(true,null);
+                return 'la liste des premiers Métros: '.$pre;
+        }
+        if (stripos($content['_text'],'dernier') !==false ){
+            if(isset($content['entities']['datetime'][0]['value'])){
+                $pre=$this->getfirstlast(false,$content['entities']['datetime'][0]['value']);
+            }else
+                $pre=$this->getfirstlast(false,null);
+            if($pre!=='')
+            return 'la liste des derniers Métros: '.$pre;
+            else
+                return 'Désolée cette information n\'est pas disponible pour le moment';
+        }
+
+
         if (isset ($content['entities']['station_proche'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 10);
             $station = $this->getnearestplace($place, '/gpsalger.csv', 'dz');
@@ -299,6 +310,9 @@ class ChatbotService
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
+            if(strrpos(strtolower($string), 'heure')>strrpos(strtolower($string), 'direction')){
+            return 'Je n\'ai pas compris toutes les informations. Reprenez le format Départ "Station", Heure "HH:MM", Direction "Terminus" ';
+            }
             $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
 
             $mintime = '';
@@ -319,8 +333,6 @@ class ChatbotService
                 return $depart . ' et ' . $direction . ' ne sont pas sur la même ligne';
             else
             return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo . ' min à cette heure-ci.';
-
-            // Le prochain devrait être à HH MM.
         }
         if (isset ($content['entities']['dest_map'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 11);
@@ -339,8 +351,11 @@ class ChatbotService
                 case "3" :
                     $intent = 'station_proche';
                     break;
+                case "abonnement":
+                case "Abonnement":
+                case "abonement":
                 case "4" :
-                    $intent = 'avantage';
+                   return 'La carte d\'abonnement vous permet de vous déplacer librement sur l\'ensemble du réseau et d’effectuer des voyages illimités durant toute la période de l\'abonnement à un prix préférenciel.';
                     break;
                 case "5" :
                     $intent = 'service client';
@@ -372,20 +387,26 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                     $this->session->set('nb_user_contact', 1);
                 }
                 //////END
-                return $content['_text'] . ' , Je suis MOMO 🤖 , l\'assistant virtuelle Casatram. Comment puis-je vous aider ? 🙂';
+                return $content['_text'] . ' , Je suis MOMO 🤖 , l\'assistant virtuelle du Métro d\'Alger. Comment puis-je vous aider ? 🙂';
 
             case 'station_proche':
                 // return 'Pour connaitre la plus proche station 🚉 de vous cliquer ci-dessous !!🗺️';
                 return 'Dans quel quartier 🗺️ vous trouvez vous ? Merci de répondre sous ce format : je suis à "Quartier"';
 
+            case 'recharger':
+                return 'Vous pouvez recharger votre carte d\'abonnement au niveau de nos agences commerciales, des guichets de vente ou des distributeurs automatiques de billets ';
+
             case 'aller':
                 return 'Ou exactement voulez-vous vous rendre 🗺️ ? Merci de répondre sous ce format : Destination "Lieu" ?';
 
             case 'avantage':
-                return 'La carte d\'abonnement vous permet de vous déplacer librement sur l\'ensemble du réseau et d’effectuer des voyages illimités durant toute la période de l\'abonnement. Il y a une différence sur la période de validité de la carte (1 semaine ou 1 mois). L\'abonnement étudiant vous donne les memes avantages mais à un prix préférenciel. Il y a une différence sur la période de validité de l\'abonnement et le prix.';
+                return 'La carte d\'abonnement vous permet de vous déplacer librement sur l\'ensemble du réseau et d’effectuer des voyages illimités durant toute la période de l\'abonnement à un prix préférenciel.';
 
             case 'réclamation':
                 return 'Vous pouvez joindre notre service client par téléphone ☎️au 021778779 ou par mail 📧: sav.alger@ratp-eldjazair.com.';
+
+            case 'ouverture':
+                return 'les horaires d\'exploitation du Métro d\'Alger sont de 05h00 à 23h00, 7j/7';
 
             case 'horaire':
                 return 'Merci de me préciser quelle est votre station 🚉 de départ, l\'heure ⏲️et votre direction 🗺️. Vous pouvez l\'ecrire comme ceci : Départ "Station", Heure "HH:MM", Direction "Terminus"';
@@ -655,6 +676,19 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         } else{
             return 'error';}
 
+
+    }
+
+    public function getfirstlast($first,$date=null){
+
+        $ss = $date?ChatbotService::dateToFrench($date, "l"):ChatbotService::dateToFrench("now", "l");
+        $repository = $this->em->getRepository(Firstlasttram::class);
+        $times = $repository->findBy(array('first'=>$first,'jour'=>$ss));
+        $res='';
+        foreach ($times as $time){
+        $res=$res.$time->getDepart().' '.$time->getHeure()->format('H:m:s').' ';
+        }
+        return $res;
 
     }
 
