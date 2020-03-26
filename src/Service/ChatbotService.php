@@ -473,7 +473,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     {
 
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json', ['query' => ['region' => $regioncode, 'address' => $placetogo, 'key' => $_ENV['google_map_key']]]);
+        $response = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json', ['query' => ['region' => $regioncode, 'address' => $placetogo.'Casablanca,Maroc', 'key' => $_ENV['google_map_key']]]);
         $data = json_decode($response->getContent());
         $lat = $data->results[0]->geometry->location->lat;
         $lng = $data->results[0]->geometry->location->lng;
