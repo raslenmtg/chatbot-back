@@ -223,7 +223,7 @@ class ChatbotService
     {
 
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json', ['query' => ['region' => $regioncode, 'address' => $placetogo, 'key' => $_ENV['google_map_key']]]);
+        $response = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json', ['query' => ['region' => $regioncode, 'address' => $placetogo.'Alger, Algérie', 'key' => $_ENV['google_map_key']]]);
         $data = json_decode($response->getContent());
         $lat = $data->results[0]->geometry->location->lat;
         $lng = $data->results[0]->geometry->location->lng;
@@ -306,7 +306,7 @@ class ChatbotService
         if (isset ($content['entities']['station_proche'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 10);
             $station = $this->getnearestplace($place, '/gpsalger.csv', 'dz');
-            return 'La station la plus proche de vous est Station ' . $station[0] . '. Vous pouvez vous y rendre ainsi https://www.google.com/maps/dir/?api=1&destination=' . $station[1] . ',' . $station[2];
+            return 'La station la plus proche de vous est Station ' . $station[0] . '. Vous pouvez vous y rendre ainsi https://www.google.com/maps/dir/?api=1&travelmode=walking&destination=' . $station[1] . ',' . $station[2];
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
@@ -338,7 +338,7 @@ class ChatbotService
             $place = substr($content['_text'], 11);
             $station = $this->getnearestplace($place, '/gpsalger.csv', 'dz');
 
-            return 'Vous devez descendre à la station ' . $station[0] . '. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin=' . $station[1] . ',' . $station[2] . '&destination=' . urlencode($place . ',Algeria,DZ');
+            return 'Vous devez descendre à la station ' . $station[0] . '. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin=' . $station[1] . ',' . $station[2] . '&travelmode=walking&destination=' . urlencode($place . ',Algeria,DZ');
         }
         if (isset($content["_text"])) {
             switch ($content["_text"]) {
