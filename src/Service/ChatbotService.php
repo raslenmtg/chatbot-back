@@ -99,12 +99,12 @@ class ChatbotService
         if (isset ($content['entities']['station_proche'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 10);
             $station = $this->getnearestplace($place, '/gpscasa.csv', 'ma');
-            return 'La station la plus proche de vous est Station ' . $station[0] . '. Vous pouvez vous y rendre ainsi https://www.google.com/maps/dir/?api=1&destination=' . $station[1] . ',' . $station[2];
+            return 'La station la plus proche de vous est Station ' . $station[0] . '. Vous pouvez vous y rendre ainsi https://www.google.com/maps/dir/?api=1&travelmode=walking&destination=' . $station[1] . ',' . $station[2];
         }
         if (isset ($content['entities']['dest_map'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 11);
             $station = $this->getnearestplace($place, '/gpscasa.csv', 'ma');
-            return 'Vous devez descendre à la station ' . $station[0] . '. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin=' . $station[1] . ',' . $station[2] . '&destination=' . urlencode($place . ',casablanca,MA');
+            return 'Vous devez descendre à la station ' . $station[0] . '. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin=' . $station[1] . ',' . $station[2] . '&travelmode=walking&destination=' . urlencode($place . ',casablanca,MA');
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
