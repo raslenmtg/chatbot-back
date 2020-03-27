@@ -9,7 +9,6 @@ use App\Entity\Sendnotif;
 use App\Entity\TempTh;
 use App\Entity\User;
 use App\Repository\TempThRepository;
-use DateTime;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -289,7 +288,10 @@ class ChatbotService
                 $pre=$this->getfirstlast(true,$content['entities']['datetime'][1]['values'][0]['value']);
             }else
                 $pre=$this->getfirstlast(true,null);
-                return 'la liste des premiers Métros: '.$pre;
+            if($pre!=='')
+                return 'la liste des Premiers Métros: '.$pre;
+            else
+                return 'Désolée cette information n\'est pas disponible pour le moment';
         }
         if (stripos($content['_text'],'dernier') !==false ){
             if(isset($content['entities']['datetime'][0]['value'])){
@@ -314,7 +316,6 @@ class ChatbotService
             return 'Je n\'ai pas compris toutes les informations. Reprenez le format Départ "Station", Heure "HH:MM", Direction "Terminus" ';
             }
             $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
-
             $mintime = '';
             $taille_tab = count($content['entities']['datetime'][0]['values']);
             for ($i = 1; $i < $taille_tab; $i++) {
@@ -329,10 +330,10 @@ class ChatbotService
             $depart = trim(str_replace('"', '', substr($string, 7, strrpos(strtolower($string), 'heure', 0) - 7)));
             $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direction', 0) + 9)));
             $tempstheo = $this->getintervalle_al($depart, $direction, $mintime);
-            if ($tempstheo === 'error')
+            if ($tempstheo[0] === 'error')
                 return 'Désolée cette information n\'est pas disponible pour le moment';
             else
-            return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo . ' min à cette heure-ci.';
+            return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo[0] . ' min à cette heure-ci. Le prochain devrait être à '. $tempstheo[1];
         }
         if (isset ($content['entities']['dest_map'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 11);
@@ -611,7 +612,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     }
 
 
-    public function getintervalle_al($d, $dir, $time)
+    public function getintervalle_al($d, $dir, $time):array
     {
         $max_similarity_dep = 0;
         $max_similarity_fin = 0;
@@ -668,12 +669,16 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         $ss = ChatbotService::dateToFrench("now", "l");
         // $heure_th=DateTime::createFromFormat('H:i',substr($time,10,8));
         //  dd(DateTime::getLastErrors());
+
         $reports = $this->temprepo->findintervalle($ss, $time, $depart, $direction);
         if (isset($reports[0])) {
+            $result= new \DateTime($time);
             $temp_theo = $reports[0]->getIntervalle()->format('i');
-            return $temp_theo;
-        } else{
-            return 'error';}
+            $d=new \DateInterval('PT'.$temp_theo.'M');
+            $result->add($d) ;
+            return array($temp_theo,$result->format('H:i'));
+        } else
+            return array('error');
 
 
     }
