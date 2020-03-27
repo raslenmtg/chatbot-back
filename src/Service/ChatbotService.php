@@ -330,14 +330,13 @@ class ChatbotService
             $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direction', 0) + 9)));
             $tempstheo = $this->getintervalle_al($depart, $direction, $mintime);
             if ($tempstheo === 'error')
-                return $depart . ' et ' . $direction . ' ne sont pas sur la même ligne';
+                return 'Désolée cette information n\'est pas disponible pour le moment';
             else
             return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo . ' min à cette heure-ci.';
         }
         if (isset ($content['entities']['dest_map'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 11);
             $station = $this->getnearestplace($place, '/gpsalger.csv', 'dz');
-
             return 'Vous devez descendre à la station ' . $station[0] . '. Voici l\'itinéraire à partir de la station. https://www.google.com/maps/dir/?api=1&origin=' . $station[1] . ',' . $station[2] . '&travelmode=walking&destination=' . urlencode($place . ',Algeria,DZ');
         }
         if (isset($content["_text"])) {
@@ -686,7 +685,9 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         $times = $repository->findBy(array('first'=>$first,'jour'=>$ss));
         $res='';
         foreach ($times as $time){
-        $res=$res.$time->getDepart().' '.$time->getHeure()->format('H:m:s').' ';
+        $res=$res.$time->getDepart().' '.$time->getHeure()->format('H:m:s').'
+         
+         ';
         }
         return $res;
 
