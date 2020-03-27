@@ -83,7 +83,10 @@ class ChatbotService
                 $pre=$this->getfirstlast(true,$content['entities']['datetime'][1]['values'][0]['value']);
             }else
                 $pre=$this->getfirstlast(true,null);
-            return 'la liste des premiers Tram: '.$pre;
+            if($pre!=='')
+                return 'la liste des premiers Tram: '.$pre;
+            else
+                return 'Désolée cette information n\'est pas disponible pour le moment';
         }
         if (stripos($content['_text'],'dernier') !==false ){
             if(isset($content['entities']['datetime'][0]['value'])){
@@ -108,8 +111,10 @@ class ChatbotService
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
+            if(strrpos(strtolower($string), 'heure')>strrpos(strtolower($string), 'direction')){
+                return 'Je n\'ai pas compris toutes les informations. Reprenez le format Départ "Station", Heure "HH:MM", Direction "Terminus" ';
+            }
             $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
-
             $mintime = '';
             $taille_tab = count($content['entities']['datetime'][0]['values']);
             for ($i = 1; $i < $taille_tab; $i++) {
@@ -124,11 +129,10 @@ class ChatbotService
             $depart = trim(str_replace('"', '', substr($string, 7, strrpos(strtolower($string), 'heure', 0) - 7)));
             $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direction', 0) + 9)));
             $tempstheo = $this->getintervalle_ma($depart, $direction, $mintime);
-            if ($tempstheo === 'error')
-                return $depart . ' et ' . $direction . ' ne sont pas sur la même ligne';
-            // Le prochain devrait être à HH MM.
+            if ($tempstheo[0] === 'error')
+                return 'Désolée cette information n\'est pas disponible pour le moment';
             else
-                return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo . ' min à cette heure-ci.';
+                return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo[0] . ' min à cette heure-ci. Le prochain devrait être à '. $tempstheo[1];
 
         }
         if (isset($content["_text"])) {
@@ -571,10 +575,13 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
         $reports = $this->temprepo->findintervalle($ss, $time, $depart, $direction);
         if (isset($reports[0])) {
+            $result= new \DateTime($time);
             $temp_theo = $reports[0]->getIntervalle()->format('i');
-            return $temp_theo;
+            $d=new \DateInterval('PT'.$temp_theo.'M');
+            $result->add($d) ;
+            return array($temp_theo,$result->format('H:i'));
         } else
-            return 'error';
+            return array('error');
 
 
     }
