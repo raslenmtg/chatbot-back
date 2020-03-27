@@ -86,7 +86,10 @@ class ChatbotService
                 $pre=$this->getfirstlast(true,$content['entities']['datetime'][1]['values'][0]['value']);
             }else
                 $pre=$this->getfirstlast(true,null);
-            return 'l\'elenco delle prime metro: '.$pre;
+            if($pre!=='')
+                return 'l\'elenco degli ultimi metro: '.$pre;
+            else
+                return 'Spiacenti, al momento questa informazione non è disponibile';
         }
         if (stripos($content['_text'],'dernier') !==false ){
             if(isset($content['entities']['datetime'][0]['value'])){
@@ -114,6 +117,9 @@ class ChatbotService
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
+            if(strrpos(strtolower($string), 'ora')>strrpos(strtolower($string), 'direzione')){
+                return 'Non ho capito tutte le informazioni. Riprendi il formato Partenza "Stazione", Ora "HH: MM", Direzione "Terminus"';
+            }
             $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
             $mintime = '';
             $taille_tab = count($content['entities']['datetime'][0]['values']);
@@ -131,11 +137,11 @@ class ChatbotService
 
 
             $tempstheo = $this->getintervalle_ma($depart, $direction, $mintime);
-            if ($tempstheo === 'error')
-                return 'errore durante il recupero del tempo';
+            if ($tempstheo[0] === 'error')
+                return 'Spiacenti, al momento questa informazione non è disponibile';
             // Le prochain devrait être à HH MM.
             else
-                return 'Salvo ritardi, in questa fascia oraria c\'è un tram ogni ' . $tempstheo . ' minuti.';
+                return 'Salvo ritardi, in questa fascia oraria c\'è un tram ogni ' . $tempstheo[0] . ' minuti.Il prossimo dovrebbe essere alle '. $tempstheo[1];
 
         }
 
@@ -546,11 +552,13 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
         $jours = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica'];
         $reports = $this->temprepo->findintervalle($jours[date('N')-1], $time, $depart, $direction);
         if (isset($reports[0])) {
+            $result= new \DateTime($time);
             $temp_theo = $reports[0]->getIntervalle()->format('i');
-
-            return $temp_theo;
+            $d=new \DateInterval('PT'.$temp_theo.'M');
+            $result->add($d) ;
+            return array($temp_theo,$result->format('H:i'));
         } else
-            return 'error';
+            return array('error');
     }
 
     public static function dateToFrench($date, $format)
