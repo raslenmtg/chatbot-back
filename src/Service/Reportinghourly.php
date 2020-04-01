@@ -123,7 +123,7 @@ class Reportinghourly extends Command
             $repository = $this->em->getRepository(Sendnotif::class);
             $notif = $repository->find($input->getArgument('id'));
             $from = $_ENV['TWILIO_PHONE_NUMBER'];
-            $files_exist = $notif->getUrl() == '';
+            $files_exist = $notif->getUrl() === '';
             $repository = $this->em->getRepository(Phone::class);
             $phoneslist = $repository->findBy(['notif_auto' => true]);
             try {
@@ -153,7 +153,7 @@ class Reportinghourly extends Command
                                 )
                             );
                     } catch (Exception $e) {
-                        var_dump($e);
+                 
                     }
                 }
             }
