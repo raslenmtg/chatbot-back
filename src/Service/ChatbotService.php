@@ -20,8 +20,6 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Process\Process;
-use Twilio\Exceptions\ConfigurationException;
-use Twilio\Rest\Client;
 
 
 /**
@@ -117,7 +115,7 @@ class ChatbotService
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
-            if(strrpos(strtolower($string), 'ora')>strrpos(strtolower($string), 'direzione')){
+            if(strripos($string, 'ora') > strripos($string, 'direzione')){
                 return 'Non ho capito tutte le informazioni. Riprendi il formato Partenza "Stazione", Ora "HH: MM", Direzione "Terminus"';
             }
             $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
@@ -130,14 +128,14 @@ class ChatbotService
                     $mintime = substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8);
                 }
             }
-            if ($mintime == '')
+            if ($mintime === '')
                 $mintime = substr($content['entities']['datetime'][0]['value'], 11, 8);
             $depart = trim(str_replace('"', '', substr($string, 8, strrpos(strtolower($string), 'ora', 0) - 10)));
             $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direzione', 0) + 9)));
 
 
             $tempstheo = $this->getintervalle_ma($depart, $direction, $mintime);
-            if ($tempstheo[0] === 'error')
+            if ($tempstheo === 'error')
                 return 'Spiacenti, al momento questa informazione non è disponibile';
             // Le prochain devrait être à HH MM.
             else
@@ -301,7 +299,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
         }
     }
 
-    function confirm_notif($phone)
+    public function confirm_notif($phone)
     {
         $repository = $this->em->getRepository(Phone::class);
         $ph = $repository->findOneBy(array('phone' => $phone));
@@ -344,6 +342,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
         $repository = $this->em->getRepository(Phone::class);
         $phones = $repository->findBy(array('notif_auto' => true));
+        $phoneslist=array();
         foreach ($phones as $phone) {
             $phoneslist[] = $phone->getPhone();
         }
@@ -352,51 +351,34 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
 
     public function getdataperhour()
     {
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
-            return $reports;
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
+        return $reports;
     }
 
     public function getdataperday()
     {
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date LIMIT 30;  ");
-            return $reports;
-
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date LIMIT 30;  ");
+        return $reports;
 
 
     }
 
     public function getdataperweek()
     {
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_semaine  ;  ");
-            return $reports;
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_semaine  ;  ");
+        return $reports;
 
 
     }
 
     public function getdatapermonth()
     {
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_mois ;  ");
-            return $reports;
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_mois ;  ");
+        return $reports;
 
 
     }
@@ -405,13 +387,9 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
 
 
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_jour  WHERE date >= ? AND date <= ?", array($start, $end));
-            return $reports;
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_jour  WHERE date >= ? AND date <= ?", array($start, $end));
+        return $reports;
     }
 
     public function deleteuser($id)
@@ -422,7 +400,6 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
             $this->usermanager->deleteUser($user);
             return true;
         } catch (Exception $e) {
-            var_dump($e);
             return false;
         }
     }
@@ -438,7 +415,6 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
             $this->usermanager->updateUser($user);
             return $user->getId();
         } catch (Exception $e) {
-            var_dump($e);
             return false;
         }
     }
@@ -447,6 +423,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
         $repository = $this->em->getRepository(User::class);
         $user = $repository->findAll();
+        $phoneslist=array();
         foreach ($user as $u) {
             $phoneslist[] = array($u->getId(), $u->getUsername(), $u->getEmail(), $u->getLastLogin());
         }
@@ -457,7 +434,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
         $client = HttpClient::create();
         $response = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json', ['query' => ['region' => $regioncode, 'address' => $placetogo, 'key' => $_ENV['google_map_key']]]);
-        $data = json_decode($response->getContent());
+        $data = json_decode($response->getContent(), true);
         $lat = $data->results[0]->geometry->location->lat;
         $lng = $data->results[0]->geometry->location->lng;
         $filename = __DIR__ . $filename;
@@ -546,8 +523,6 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
             return 'error';
         }
         $ss = ChatbotService::dateToFrench("now", "l");
-        // $heure_th=DateTime::createFromFormat('H:i',substr($time,10,8));
-        //  dd(DateTime::getLastErrors());
         $oldLocale = setlocale(LC_TIME, 'it_IT');
         $jours = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato', 'domenica'];
         $reports = $this->temprepo->findintervalle($jours[date('N')-1], $time, $depart, $direction);
@@ -574,7 +549,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
 
         try {
-            $data = json_decode($request->getContent());
+            $data = json_decode($request->getContent(), true);
             $tempth = new TempTh();
             $tempth->setArrive($data->arrive);
             $tempth->setDepart($data->depart);
@@ -625,7 +600,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
 
         try {
-            $data = json_decode($request->getContent());
+            $data = json_decode($request->getContent(), true);
             $tempth = new Firstlasttram();
             $tempth->setFirst($data->type);
             $tempth->setDepart($data->depart);
