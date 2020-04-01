@@ -20,6 +20,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Process\Process;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Rest\Client;
 
@@ -111,7 +112,7 @@ class ChatbotService
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
-            if(strrpos(strtolower($string), 'heure')>strrpos(strtolower($string), 'direction')){
+            if(strripos($string, 'heure') > strripos($string, 'direction')){
                 return 'Je n\'ai pas compris toutes les informations. Reprenez le format Départ "Station", Heure "HH:MM", Direction "Terminus" ';
             }
             $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
@@ -124,12 +125,12 @@ class ChatbotService
                     $mintime = substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8);
                 }
             }
-            if ($mintime == '')
+            if ($mintime === '')
                 $mintime = substr($content['entities']['datetime'][0]['value'], 11, 8);
             $depart = trim(str_replace('"', '', substr($string, 7, strrpos(strtolower($string), 'heure', 0) - 7)));
             $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direction', 0) + 9)));
             $tempstheo = $this->getintervalle_ma($depart, $direction, $mintime);
-            if ($tempstheo[0] === 'error')
+            if ($tempstheo === 'error')
                 return 'Désolée cette information n\'est pas disponible pour le moment';
             else
                 return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo[0] . ' min à cette heure-ci. Le prochain devrait être à '. $tempstheo[1];
@@ -323,7 +324,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         }
     }
 
-    function confirm_notif($phone)
+    public function confirm_notif($phone)
     {
         $repository = $this->em->getRepository(Phone::class);
         $ph = $repository->findOneBy(array('phone' => $phone));
@@ -370,51 +371,34 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
     public function getdataperhour()
     {
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
-            return $reports;
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
+        return $reports;
     }
 
     public function getdataperday()
     {
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date LIMIT 30;  ");
-            return $reports;
-
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date LIMIT 30;  ");
+        return $reports;
 
 
     }
 
     public function getdataperweek()
     {
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_semaine  ;  ");
-            return $reports;
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_semaine  ;  ");
+        return $reports;
 
 
     }
 
     public function getdatapermonth()
     {
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_mois ;  ");
-            return $reports;
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_mois ;  ");
+        return $reports;
 
 
     }
@@ -423,13 +407,9 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     {
 
 
-        try {
-            $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_jour  WHERE date >= ? AND date <= ?", array($start, $end));
-            return $reports;
-        } catch (DBALException $e) {
-            var_dump($e);
-        }
+        $conn = $this->em->getConnection();
+        $reports = $conn->fetchAll("SELECT * FROM reporting_jour  WHERE date >= ? AND date <= ?", array($start, $end));
+        return $reports;
     }
 
     public function deleteuser($id)
@@ -569,7 +549,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         } else {
             return 'error';
         }
-        $ss = ChatbotService::dateToFrench("now", "l");
+        $ss = self::dateToFrench("now", "l");
         // $heure_th=DateTime::createFromFormat('H:i',substr($time,10,8));
         //  dd(DateTime::getLastErrors());
 
@@ -597,7 +577,6 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
     public function addtemp_th(Request $request)
     {
-
         try {
             $data = json_decode($request->getContent());
             $tempth = new TempTh();
@@ -621,7 +600,6 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         } catch (Exception $e) {
             return array("result" => false);
         }
-
     }
 
     public function get_list_temp_th(Request $request)
@@ -691,12 +669,12 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
     public function getfirstlast($first,$date=null){
 
-        $ss = $date?ChatbotService::dateToFrench($date, "l"):ChatbotService::dateToFrench("now", "l");
+        $ss = $date? self::dateToFrench($date, "l"): self::dateToFrench("now", "l");
         $repository = $this->em->getRepository(Firstlasttram::class);
         $times = $repository->findBy(array('first'=>$first,'jour'=>$ss));
         $res='';
         foreach ($times as $time){
-            $res=$res.$time->getDepart().' '.$time->getHeure()->format('H:m:s').' ';
+            $res .= $time->getDepart() . ' ' . $time->getHeure()->format('H:m:s') . ' ';
         }
         return $res;
 
