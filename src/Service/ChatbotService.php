@@ -122,7 +122,11 @@ class ChatbotService
             }
             $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
             $mintime = '';
-            $taille_tab = count($content['entities']['datetime'][0]['values']);
+            try {
+                $taille_tab = count($content['entities']['datetime'][0]['values']);
+            } catch (Exception $e) {
+                return 'Non ho capito tutte le informazioni. Riprendi il formato Partenza "Stazione", Ora "HH:MM", Direzione "Terminus"';
+            }
             for ($i = 1; $i < $taille_tab; $i++) {
 
                 if ($time > strtotime(substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8))) {
