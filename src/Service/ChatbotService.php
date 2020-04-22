@@ -10,7 +10,6 @@ use App\Entity\TempTh;
 use App\Entity\User;
 use App\Repository\TempThRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use FOS\UserBundle\Model\UserManagerInterface;
@@ -73,10 +72,10 @@ class ChatbotService
 
         $client = HttpClient::create();
         try {
-            $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => '20191021', 'q' => $message], 'headers' => ['Authorization' => 'Bearer ' . $_ENV['WIT_TOKEN']]]);
+            $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => date("Ymd"), 'q' => $message], 'headers' => ['Authorization' => 'Bearer ' . $_ENV['WIT_TOKEN']]]);
             $content = $response->toArray();
         } catch (Exception $e) {
-            return 'Server offline';
+            dd($e);
         }
 
         if (stripos($content['_text'],'premier') !==false ){
@@ -115,8 +114,11 @@ class ChatbotService
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
+            var_dump(strripos($string, 'ora'));
+            var_dump(strripos($string, 'direzione'));
+            die;
             if(strripos($string, 'ora') > strripos($string, 'direzione')){
-                return 'Non ho capito tutte le informazioni. Riprendi il formato Partenza "Stazione", Ora "HH: MM", Direzione "Terminus"';
+                return 'Non ho capito tutte le informazioni. Riprendi il formato Partenza "Stazione", Ora "HH:MM", Direzione "Terminus"';
             }
             $time = strtotime(substr($content['entities']['datetime'][0]['value'], 11, 8));
             $mintime = '';
@@ -168,10 +170,10 @@ class ChatbotService
         }
 
 
-        if (isset ($content['entities']['intent'][0]['value']))
+        if (isset ($content['entities']['intent'][0]['value'])){
             $intent = $content['entities']['intent'][0]['value'];
-
-        else
+        }
+        elseif ($intent === '')
             return 'Non ho compreso la sua domanda
 Posso fornirle le seguenti informazioni
 1- Orari del tram
@@ -205,7 +207,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
                 return 'In quale zona vi trovate? Grazie di inserire la risposta in questo formato: sono in zona "Nome della zona"';
 
             case "horaire":
-                return 'Grazie per specificare la sua fermata di partenza, l\'ora e la direzione. Può scrivere così: Partenza "Nome fermata", Ora "HH MM", Direzione "Capolinea"';
+                return 'Grazie per specificare la sua fermata di partenza, l\'ora e la direzione. Può scrivere così: Partenza "Nome fermata", Ora "HH:MM", Direzione "Capolinea"';
 
             case "book":
                 return "Potete comprare in anticipo i biglietti tramite la app Nugo, oppure usufruire del servizio prenotazione del parcheggio di Villa Costanza https://www.parcheggiovillacostanza.it/it/parcheggio-villa-costanza/prenotazioni-gruppi/";
