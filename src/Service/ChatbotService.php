@@ -561,7 +561,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             $result->add($d) ;
             return array($temp_theo,$result->format('H:i'));
         } else
-            return array('error');
+            return 'error';
 
 
     }

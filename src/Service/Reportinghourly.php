@@ -38,17 +38,11 @@ class Reportinghourly extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         date_default_timezone_set('Africa/Casablanca');
-        //  var_dump($input);
-        //  var_dump($input->getArgument('time'));
         if ($input->getArgument('time') === 'hourly') {
             $cache = new FilesystemAdapter();
-            // $productsCount = $cache->getItem('nb_msg_user');
-            // $productsCount->set(4711);
-            //$cache->save($productsCount);
             $nb_msg_user = $cache->getItem('nb_msg_user')->get();
             $nb_nouv_user = $cache->getItem('nb_nouv_user')->get();
             $nb_user_contact = $cache->getItem('nb_user_contact')->get();
-            //  var_dump($cache->getItem('nb_msg_user')->get());
             $x = new \DateTime();
             $this->em->getConnection()->insert('reporting_heure', array('nb_nouv_user' => $nb_nouv_user,
                 'nb_msg_user' => $nb_msg_user,
@@ -153,7 +147,7 @@ class Reportinghourly extends Command
                                 )
                             );
                     } catch (Exception $e) {
-                        var_dump($e);
+
                     }
                 }
             }
