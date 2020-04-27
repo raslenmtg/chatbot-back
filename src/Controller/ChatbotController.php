@@ -22,6 +22,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * Permet de répondre à les messages recu d'aprés twilio
      * @Route("/chatbot/ma",name="chatbot", methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -46,6 +47,7 @@ class ChatbotController extends AbstractController
 
 
     /**
+     * récupérer la liste des numéro des téléphones
      * @Route("/api/getphones",name="chatbot_phones", methods={"POST"})
      * @param ChatbotService $chatbotService
      * @return JsonResponse
@@ -57,6 +59,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * permet d'envoyer une  notification à l'utilisateurs
      * @Route("sendnotif",name="sendnotif",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -75,6 +78,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * récupérer les statistiques par heure
      * @Route("/api/getdataperhour",name="getdataperhour",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -88,6 +92,7 @@ class ChatbotController extends AbstractController
 
 
     /**
+     * récupérer les statistiques par jour
      * @Route("/api/getdataperday",name="getdataperday",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -101,6 +106,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * récupérer les statistiques par mois
      * @Route("/api/getdatapermonth",name="getdatapermonth",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -114,6 +120,7 @@ class ChatbotController extends AbstractController
 
 
     /**
+     * récupérer les statistiques par semaine
      * @Route("/api/getdataperweek",name="getdataperweek",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -126,6 +133,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * récupérer les statistiques par date ("début"=>"fin")
      * @Route("/api/getdataperdate",name="getdataperdate",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -140,6 +148,7 @@ class ChatbotController extends AbstractController
 
 
     /**
+     * permet de supprimer un utilisateur
      * @Route("/api/deleteuser",name="deleteuser",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -153,6 +162,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * permet d'ajouter un utilisateur
      * @Route("/api/adduser",name="adduser",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -170,6 +180,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * permet de récupérer la liste des utilisateurs
      * @Route("/api/getusers",name="getusers",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -182,6 +193,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * permet d'ajouter un temps théorique
      * @Route("/api/addtemp_th",name="addtemp_th",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -194,6 +206,7 @@ class ChatbotController extends AbstractController
     }
 
     /**
+     * Récupérer liste des  temps théoriques
      * @Route("/api/get_list_temp_th",name="get_list_temp_th",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -207,6 +220,7 @@ class ChatbotController extends AbstractController
 
 
     /**
+     * permet de supprimer un temps théorique
      * @Route("/api/delete_temp_th/{id}",name="delete_temp_th",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -221,6 +235,7 @@ class ChatbotController extends AbstractController
 
 
     /**
+     * permet d'ajouter le temps du premier/dernier tram
      * @Route("/api/addfirstlast",name="addfirstlast",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -234,6 +249,7 @@ class ChatbotController extends AbstractController
 
 
     /**
+     * permet de récupérer la liste des temps du premiers/derniers tram
      * @Route("/api/get_list_firstlast",name="get_list_firstlast",methods={"GET"})
      * @param Request $request
      * @param ChatbotService $chatbotService
@@ -247,6 +263,7 @@ class ChatbotController extends AbstractController
 
 
     /**
+     * permet de supprimer le temps du premier/dernier tram
      * @Route("/api/delete_firstlast/{id}",name="delete_firstlast",methods={"POST"})
      * @param Request $request
      * @param ChatbotService $chatbotService
