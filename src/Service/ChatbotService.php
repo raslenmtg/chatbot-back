@@ -326,6 +326,7 @@ class ChatbotService
             $depart = trim(str_replace('"', '', substr($string, 7, strrpos(strtolower($string), 'heure') - 7)));
             $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direction') + 9)));
             $tempstheo = $this->getintervalle_al($depart, $direction, $mintime);
+
             if ($tempstheo === 'error')
                 return 'Désolée cette information n\'est pas disponible pour le moment';
             else
@@ -606,7 +607,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     }
 
 
-    public function getintervalle_al($d, $dir, $time):array
+    public function getintervalle_al($d, $dir, $time)
     {
         $max_similarity_dep = 0;
         $max_similarity_fin = 0;
@@ -658,7 +659,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                 $direction = 'Hay El Badr';
             }
         } else {
-            return array('error');
+            return 'error';
         }
         $ss = self::dateToFrench("now", "l");
         // $heure_th=DateTime::createFromFormat('H:i',substr($time,10,8));
@@ -672,7 +673,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             $result->add($d) ;
             return array($temp_theo,$result->format('H:i'));
         } else
-            return array('error');
+            return 'error';
 
 
     }
