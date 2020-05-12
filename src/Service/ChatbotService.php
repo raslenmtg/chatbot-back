@@ -440,7 +440,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
         $client = HttpClient::create();
         $response = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json', ['query' => ['region' => $regioncode, 'address' => $placetogo, 'key' => $_ENV['google_map_key']]]);
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent());
         $lat = $data->results[0]->geometry->location->lat;
         $lng = $data->results[0]->geometry->location->lng;
         $filename = __DIR__ . $filename;
@@ -555,7 +555,8 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
 
         try {
-            $data = json_decode($request->getContent(), true);
+            $data = json_decode($request->getContent());
+
             $tempth = new TempTh();
             $tempth->setArrive($data->arrive);
             $tempth->setDepart($data->depart);
@@ -572,10 +573,10 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
             $this->em->persist($tempth);
             $this->em->flush();
             if ($this->em->contains($tempth)) {
-                return array("result" => true);
+                return 200;
             }
         } catch (Exception $e) {
-            return array("result" => false);
+            return 400;
         }
 
     }
@@ -606,7 +607,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     {
 
         try {
-            $data = json_decode($request->getContent(), true);
+            $data = json_decode($request->getContent());
             $tempth = new Firstlasttram();
             $tempth->setFirst($data->type);
             $tempth->setDepart($data->depart);
