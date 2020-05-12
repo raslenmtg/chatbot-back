@@ -618,10 +618,10 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
             $this->em->persist($tempth);
             $this->em->flush();
             if ($this->em->contains($tempth)) {
-                return array("result" => true);
+                return 200;
             }
         } catch (Exception $e) {
-            return array("result" => false);
+            return 400;
         }
 
     }

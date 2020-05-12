@@ -225,7 +225,7 @@ class ChatbotController extends AbstractController
     public function addfirstlast(Request $request, ChatbotService $chatbotService): ?JsonResponse
     {
         $resp = $chatbotService->addfirstlast($request);
-        return new JsonResponse($resp);
+        return new JsonResponse(null,$resp);
     }
 
 
