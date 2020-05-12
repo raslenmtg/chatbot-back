@@ -75,7 +75,7 @@ class ChatbotService
             $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => date("Ymd"), 'q' => $message], 'headers' => ['Authorization' => 'Bearer ' . $_ENV['WIT_TOKEN']]]);
             $content = $response->toArray();
         } catch (Exception $e) {
-            dd($e);
+
         }
 
         if (stripos($content['_text'],'premier') !==false ){
@@ -114,9 +114,6 @@ class ChatbotService
         }
         if (isset ($content['entities']['horaire'][0]['value'])) {
             $string = $content['_text'];
-            var_dump(strripos($string, 'ora'));
-            var_dump(strripos($string, 'direzione'));
-            die;
             if(strripos($string, 'ora') > strripos($string, 'direzione')){
                 return 'Non ho capito tutte le informazioni. Riprendi il formato Partenza "Stazione", Ora "HH:MM", Direzione "Terminus"';
             }
@@ -128,7 +125,6 @@ class ChatbotService
                 return 'Non ho capito tutte le informazioni. Riprendi il formato Partenza "Stazione", Ora "HH:MM", Direzione "Terminus"';
             }
             for ($i = 1; $i < $taille_tab; $i++) {
-
                 if ($time > strtotime(substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8))) {
                     $time = strtotime(substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8));
                     $mintime = substr($content['entities']['datetime'][0]['values'][$i]['value'], 11, 8);
@@ -139,14 +135,12 @@ class ChatbotService
             $depart = trim(str_replace('"', '', substr($string, 8, strrpos(strtolower($string), 'ora', 0) - 10)));
             $direction = trim(str_replace('"', '', substr($string, strrpos(strtolower($string), 'direzione', 0) + 9)));
 
-
             $tempstheo = $this->getintervalle_ma($depart, $direction, $mintime);
             if ($tempstheo === 'error')
                 return 'Spiacenti, al momento questa informazione non è disponibile';
             // Le prochain devrait être à HH MM.
             else
                 return 'Salvo ritardi, in questa fascia oraria c\'è un tram ogni ' . $tempstheo[0] . ' minuti.Il prossimo dovrebbe essere alle '. $tempstheo[1];
-
         }
 
         if (isset($content["_text"])) {
