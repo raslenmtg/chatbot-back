@@ -116,7 +116,7 @@ class ChatbotService
     {
 
             $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
+            $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC LIMIT 24;");
             return $reports;
 
     }
@@ -124,14 +124,14 @@ class ChatbotService
     public function getdataperday(): ?array
     {
             $conn = $this->em->getConnection();
-            $reports = $conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date LIMIT 30;  ");
+            $reports = $conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date LIMIT 30;");
             return $reports;
     }
 
     public function getdataperweek(): ?array
     {
             $conn = $this->em->getConnection();
-        return $conn->fetchAll("SELECT * FROM reporting_semaine  ;  ");
+        return $conn->fetchAll("SELECT * FROM reporting_semaine LIMIT 48 ;  ");
     }
 
     public function getdatapermonth(): ?array
