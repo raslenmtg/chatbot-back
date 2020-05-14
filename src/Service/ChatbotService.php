@@ -351,14 +351,14 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     public function getdataperhour()
     {
         $conn = $this->em->getConnection();
-        $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
+        $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC  LIMIT 24;");
         return $reports;
     }
 
     public function getdataperday()
     {
         $conn = $this->em->getConnection();
-        $reports = $conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date LIMIT 30;  ");
+        $reports = $conn->fetchAll("SELECT * FROM reporting_jour  ORDER BY date LIMIT 30;");
         return $reports;
 
 
@@ -367,7 +367,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     public function getdataperweek()
     {
         $conn = $this->em->getConnection();
-        $reports = $conn->fetchAll("SELECT * FROM reporting_semaine  ;  ");
+        $reports = $conn->fetchAll("SELECT * FROM reporting_semaine  LIMIT 48;");
         return $reports;
 
 
@@ -376,7 +376,7 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
     public function getdatapermonth()
     {
         $conn = $this->em->getConnection();
-        $reports = $conn->fetchAll("SELECT * FROM reporting_mois ;  ");
+        $reports = $conn->fetchAll("SELECT * FROM reporting_mois ;");
         return $reports;
 
 
