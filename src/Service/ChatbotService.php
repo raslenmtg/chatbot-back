@@ -372,7 +372,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     public function getdataperhour()
     {
         $conn = $this->em->getConnection();
-        $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC ;  ");
+        $reports = $conn->fetchAll("SELECT * FROM reporting_heure  ORDER BY date DESC LIMIT 24 ;  ");
         return $reports;
     }
 
@@ -388,7 +388,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
     public function getdataperweek()
     {
         $conn = $this->em->getConnection();
-        $reports = $conn->fetchAll("SELECT * FROM reporting_semaine  ;  ");
+        $reports = $conn->fetchAll("SELECT * FROM reporting_semaine  LIMIT 48;  ");
         return $reports;
 
 
