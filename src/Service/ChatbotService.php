@@ -74,7 +74,7 @@ class ChatbotService
         //////END*/
         $client = HttpClient::create();
         try {
-            $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => date("Ymd"), 'q' => $message], 'headers' => ['Authorization' => 'Bearer ' . $_ENV['WIT_TOKEN']]]);
+            $response = $client->request('GET', 'https://api.wit.ai/message', ['query' => ['v' => '20200510', 'q' => $message], 'headers' => ['Authorization' => 'Bearer ' . $_ENV['WIT_TOKEN']]]);
             $content = $response->toArray();
         } catch (Exception $e) {
             return 'serveur hors tension, reconnectez-vous en quelques minutes';
