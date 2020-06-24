@@ -15,6 +15,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -250,22 +251,30 @@ class ChatbotService
     public function typeofmessage_alger($data): ?string
     {
 
-        if ($this->session->has('nb_msg_user')) {
-            $this->session->set('nb_msg_user', $this->session->get('nb_msg_user') + 1);
+        $cache = new FilesystemAdapter();
+        //  $cache->hasItem('nb_msg_user')
+        if ($cache->hasItem('nb_msg_user')) {
+            $msgCount =  $cache->getItem('nb_msg_user')->set($cache->getItem('nb_msg_user')->get()+1);
         } else {
-            $this->session->set('nb_msg_user', 1);
+            $msgCount =  $cache->getItem('nb_msg_user')->set(1);
         }
+        $cache->save($msgCount);
         $message = $data['message'];
         $phone = $data['phone_number'];
         $new_phone = $this->addphone($phone);
 
         //////Nombres de nouveau clients
         if ($new_phone) {
-            if ($this->session->has('nb_nouv_user')) {
-                $this->session->set('nb_nouv_user', $this->session->get('nb_nouv_user') + 1);
+            if ($cache->hasItem('nb_nouv_user')) {
+                $msgCount =  $cache->getItem('nb_nouv_user')->set($cache->getItem('nb_nouv_user')->get()+1);
+
             } else {
-                $this->session->set('nb_nouv_user', 1);
+                $msgCount =  $cache->getItem('nb_nouv_user')->set(1);
             }
+            $cache->save($msgCount);
+            $newCount = $cache->getItem('nb_nouv_user');
+            $newCount->set($this->session->get('nb_nouv_user'));
+            $cache->save($newCount);
         }
 
         //////END*/
@@ -352,7 +361,7 @@ class ChatbotService
                 case "Abonnement":
                 case "abonement":
                 case "4" :
-                   return 'La carte d\'abonnement vous permet de vous déplacer librement sur l\'ensemble du réseau et d’effectuer des voyages illimités durant toute la période de l\'abonnement à un prix préférenciel.';
+                   return 'La carte d\'abonnement vous permet de vous déplacer librement sur l\'ensemble du réseau et d’effectuer des voyages illimités durant toute la période de l\'abonnement à un prix préférentiel.';
                     break;
                 case "6" :
                 case "5" :
@@ -364,7 +373,7 @@ class ChatbotService
             $intent = $content['entities']['intent'][0]['value'];
         } elseif (!isset($intent)) {
             return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
-1 - Horaires tramway
+1 - Horaires tramway (FAQ)
 2 - Itinéraire 
 3 - Station la plus proche 
 4 - Abonnement
@@ -376,11 +385,16 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
         switch ($intent) {
             case 'salutation':
                 //////Nombre de personnes qui ont contacter le chatbot
-                if ($this->session->has('nb_user_contact')) {
-                    $this->session->set('nb_user_contact', $this->session->get('nb_user_contact') + 1);
+                if ($cache->hasItem('nb_user_contact')) {
+                    $msgCount =  $cache->getItem('nb_user_contact')->set($cache->getItem('nb_user_contact')->get()+1);
+                    //  $this->session->set('nb_user_contact', $this->session->get('nb_user_contact') + 1);
                 } else {
-                    $this->session->set('nb_user_contact', 1);
+                    $msgCount =  $cache->getItem('nb_user_contact')->set(1);
                 }
+                $cache->save($msgCount);
+                $newCount = $cache->getItem('nb_user_contact');
+                $newCount->set($this->session->get('nb_user_contact'));
+                $cache->save($newCount);
                 //////END
                 return $content['_text'] . ' , Je suis MOMO 🤖 , l\'assistant virtuelle du Métro d\'Alger. Comment puis-je vous aider ? 🙂';
 
