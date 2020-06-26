@@ -339,7 +339,7 @@ class ChatbotService
             if ($tempstheo === 'error')
                 return 'Désolée cette information n\'est pas disponible pour le moment';
             else
-            return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo[0] . ' min à cette heure-ci. Le prochain devrait être à '. $tempstheo[1];
+            return 'Sauf perturbation, il y a un métro chaque ' . $tempstheo[0] . ' min à cette heure-ci. Le prochain devrait être à '. $tempstheo[1];
         }
         if (isset ($content['entities']['dest_map'][0]['value']) & !isset($content['entities']['intent'][0]['value'])) {
             $place = substr($content['_text'], 11);
@@ -373,7 +373,7 @@ class ChatbotService
             $intent = $content['entities']['intent'][0]['value'];
         } elseif (!isset($intent)) {
             return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
-1 - Horaires tramway (FAQ)
+1 - Horaires métro (FAQ)
 2 - Itinéraire 
 3 - Station la plus proche 
 4 - Abonnement
@@ -443,7 +443,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                         case 'abonnement sénior':
                             return 'l\'abonnement sénior est à 1,000 dinar';
                         case 'abonnement unique':
-                            return 'l\'abonnement unique est à 2,500 dinar, valable pour les quatres types de transport: Métro - Tramway - Transport par cables - bus ETUSA';
+                            return 'l\'abonnement unique est à 2,500 dinar, valable pour les quatres types de transport: Métro - tramway - Transport par cables - bus ETUSA';
                         case 'carte_unit':
                             return 'Le prix de la carte à unités de transport (le support) est à 300 dinar. 10 voyages: 400 dinar / 20 voyages: 700 dinar / 30 voyages: 1020 dinar / 40 voyages: 1320 dinar / 50 voyages: 1600 dinar.';
                     }
@@ -503,7 +503,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
 
                 return 'Désolé je n’ai pas saisi votre question. Pourriez vous m’indiquer si votre question correspond à l’une de nos FAQ ? 
-1 - Horaires tramway
+1 - Horaires métro
 2 - Itinéraire 
 3 - Station la plus proche 
 4 - Abonnement
