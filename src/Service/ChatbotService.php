@@ -170,7 +170,7 @@ class ChatbotService
         if (isset ($content['entities']['intent'][0]['value'])){
             $intent = $content['entities']['intent'][0]['value'];
         }
-        elseif ($intent === '')
+        elseif (!isset($intent))
             return 'Non ho compreso la sua domanda
 Posso fornirle le seguenti informazioni
 1- Orari del tram
