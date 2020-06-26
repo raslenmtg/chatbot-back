@@ -10,19 +10,14 @@ use App\Entity\TempTh;
 use App\Entity\User;
 use App\Repository\TempThRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use FOS\UserBundle\Model\UserManagerInterface;
-
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Process\Process;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Twilio\Exceptions\ConfigurationException;
-use Twilio\Rest\Client;
 
 
 /**
@@ -30,7 +25,6 @@ use Twilio\Rest\Client;
  */
 class ChatbotService
 {
-
     private $session;
     private $usermanager;
     private $temprepo;
@@ -180,7 +174,6 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                 //////Nombre de personnes qui ont contacter le chatbot
                 if ($cache->hasItem('nb_user_contact')) {
                     $msgCount =  $cache->getItem('nb_user_contact')->set($cache->getItem('nb_user_contact')->get()+1);
-                  //  $this->session->set('nb_user_contact', $this->session->get('nb_user_contact') + 1);
                 } else {
                     $msgCount =  $cache->getItem('nb_user_contact')->set(1);
                 }
@@ -190,7 +183,7 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                 $cache->save($newCount);
 
                 //////END
-                return $content['_text'] . ' , Je suis Trambot 🤖 , l\'assistant virtuelle Casatram. Comment puis-je vous aider ? 🙂';
+                return $content['_text'] . ' , Je suis Trambot 🤖 , l\'assistant virtuelle Casa Tramway. Comment puis-je vous aider ? 🙂';
 
             case 'station_proche':
                 // return 'Pour connaitre la plus proche station 🚉 de vous cliquer ci-dessous !!🗺️';
@@ -436,7 +429,6 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
             $this->usermanager->updateUser($user);
             return $user->getId();
         } catch (Exception $e) {
-            var_dump($e);
             return false;
         }
     }
