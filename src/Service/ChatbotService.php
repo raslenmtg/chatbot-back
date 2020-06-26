@@ -264,7 +264,17 @@ Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il
                     return '\'Grazie per la sua risposta. Non esiti a contattare nuovamente Sirio se ha bisogno. Sirio 🤖 al suo servizio! 😉';
                 }
                 break;
-
+            default:
+                return 'Non ho compreso la sua domanda
+Posso fornirle le seguenti informazioni
+1- Orari del tram
+2- Itinerario
+3- La fermata più vicina
+4- Tariffe e abbonamenti
+5- Servizio clienti (Rimborsi; oggetti smarriti)
+6- Reclami
+Se una di queste proposte corrisponde alla sua richiesta, proceda con la scelta
+Se nessuna di queste proposte corrisponde alla sua richiesta, può contattare il servizio clienti al numero gratuito 800.964424 (solo da fisso) o al numero a pagamento 199.229300 (solo da cellulare), oppure visitare il nostro sito www.gestramvia.com';
 
         }
 
