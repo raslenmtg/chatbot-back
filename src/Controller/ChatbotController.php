@@ -219,18 +219,15 @@ class ChatbotController extends AbstractController
     }
 
 
-    /**
-     * permet de supprimer un temps théorique
-     * @Route("/api/delete_temp_th/{id}",name="delete_temp_th",methods={"POST"})
-     * @param Request $request
-     * @param ChatbotService $chatbotService
-     * @return JsonResponse
-     */
-    public function delete_temp_th(Request $request, ChatbotService $chatbotService): ?JsonResponse
+
+    public function delete_temp_th(Request $request, ChatbotService $chatbotService): Response
     {
       //  dd( $request->get('id'));
         $resp = $chatbotService->delete_temp_th($request->get('id'));
-        return new JsonResponse($resp);
+      if(  $resp["result"])
+    return new Response($resp,200);
+        else
+            return new Response($resp,200);
     }
 
 
@@ -262,18 +259,15 @@ class ChatbotController extends AbstractController
     }
 
 
-    /**
-     * permet de supprimer le temps du premier/dernier tram
-     * @Route("/api/delete_firstlast/{id}",name="delete_firstlast",methods={"POST"})
-     * @param Request $request
-     * @param ChatbotService $chatbotService
-     * @return JsonResponse
-     */
-    public function delete_firstlast(Request $request, ChatbotService $chatbotService): ?JsonResponse
+
+    public function delete_firstlast(Request $request, ChatbotService $chatbotService): Response
     {
         //  dd( $request->get('id'));
         $resp = $chatbotService->delete_firstlast($request->get('id'));
-        return new JsonResponse($resp);
+        if(  $resp["result"])
+            return new Response($resp,200);
+        else
+            return new Response($resp,200);
     }
 
 

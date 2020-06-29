@@ -128,7 +128,6 @@ class ChatbotService
                 return 'Désolée cette information n\'est pas disponible pour le moment';
             else
                 return 'Sauf perturbation, il y a un tramway chaque ' . $tempstheo[0] . ' min à cette heure-ci. Le prochain devrait être à '. $tempstheo[1];
-
         }
         if (isset($content["_text"])) {
             switch ($content["_text"]) {
@@ -174,7 +173,6 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
                 //////Nombre de personnes qui ont contacter le chatbot
                 if ($cache->hasItem('nb_user_contact')) {
                     $msgCount =  $cache->getItem('nb_user_contact')->set($cache->getItem('nb_user_contact')->get()+1);
-                  //  $this->session->set('nb_user_contact', $this->session->get('nb_user_contact') + 1);
                 } else {
                     $msgCount =  $cache->getItem('nb_user_contact')->set(1);
                 }
@@ -607,12 +605,15 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
     public function delete_temp_th($id)
     {
+        try{
         $repository = $this->em->getRepository(TempTh::class);
         $times = $repository->find($id);
         $this->em->remove($times);
         $this->em->flush();
         return array("result" => true);
-
+        }catch (Exception $e){
+           return  array("result" => false);
+        }
     }
 
 
@@ -653,11 +654,15 @@ Si aucune de ces propositions ne correspond à votre demande, vous pouvez contac
 
     public function delete_firstlast($id)
     {
+        try{
         $repository = $this->em->getRepository(Firstlasttram::class);
         $times = $repository->find($id);
         $this->em->remove($times);
         $this->em->flush();
         return array("result" => true);
+    } catch (Exception $e) {
+return array("result" => false);
+}
     }
 
     public function getfirstlast($first,$date=null){
